@@ -1,0 +1,58 @@
+@import 'color';
+@import 'variable';
+
+.slick-slider {
+  z-index: 1
+}
+
+.btn {
+  border-radius: 0;
+  font-family: $default-font;
+}
+
+.btn-transparent {
+  background-color: rgba(51, 51, 51, 0.4);
+  border-radius: 0.2vw;
+  border-style: none;
+  transition: transform .2s linear;
+  padding-left: 2vw; 
+  padding-right: 2vw; 
+  font-size: 1.4vw;
+
+  &:hover{
+    background-color: #fff;
+    border-style: none;
+    color: $black;
+    transform: scale(1.1);
+    transition: transform .2s linear;
+  }
+}
+
+ul.slick-dots {
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: auto;
+  height: 0;
+
+  li {
+    margin: 0;
+
+    button:before {
+      color: $white
+    }
+  }
+}
+
+a {
+  text-decoration: none;
+  color: $grey;
+  transition: color .2s linear;
+
+  &:hover {
+    text-decoration: none;
+    color: $white;
+    transition: color .2s linear;
+  }
+}

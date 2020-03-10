@@ -1,0 +1,322 @@
+// Bootstrap and its default variables
+@import '~/node_modules/bootstrap/scss/bootstrap';
+// BootstrapVue and its default variables
+@import '~/node_modules/bootstrap-vue/src/index.scss';
+@import '~/node_modules/plyr/dist/plyr.css';
+
+@import 'color';
+@import 'overide';
+@import 'animation';
+@import 'variable';
+
+* {box-sizing: border-box; outline: 0px;}
+
+body {
+  font-family: $font;
+  margin: 0px;
+  color: $white;
+  background: $black;
+  overflow-x: hidden;
+}
+
+section.lr-slider{
+  display: block;
+  position: relative;
+
+  h2.title{
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    display: block;
+    font-size: 1.6vw;
+    font-weight: 600;
+    margin: 0 calc(3vw + 4px);
+    z-index: 2;
+  }
+
+  .slider {
+    margin: 0 3vw;
+    opacity: 1;
+    transition: opacity .2 linear;
+  }
+
+  ul.lr-slider-slide {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: block;
+    position: relative;
+    width: 100%;
+    height: auto;
+    white-space: nowrap;
+    font-size: 0;
+    margin: 4vw 0;
+
+    li {
+      display: inline-block;
+      height: auto;
+      padding: 1vw 2px;
+      overflow: hidden;
+      cursor: pointer;
+
+      .img {
+        display: block;
+        position: relative;
+        width: 100%;
+        height: 0px;
+        padding-top: 150%;
+        background-size: cover;
+        transform-origin: top right;
+
+        &:after {
+          content:"";
+          display: block;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          background: linear-gradient(to bottom, rgba($black,0) 0%,rgba($black,1) 100%);
+          transition: all .5s ease .2s
+        }
+
+        img {
+          display: block;
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+        }
+
+        .selected {
+          border: .4vw solid;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 1;
+          z-index: 100;
+
+          &::after {
+            content: '';
+            width: 0;
+            height: 0;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -20px;
+            border-style: solid;
+            border-width: 10px 20px 0 20px;
+            margin-top: 3px;
+            border-color: #fff transparent transparent transparent;
+          }
+        }
+      }
+
+      .card-info {
+        transform: scaleY(2.5);
+        display: block;
+        position: absolute;
+        padding: 10%;
+        bottom: 10%;
+        left: 0;
+        z-index: 1;
+        width: 100%;
+        height: auto;
+        text-shadow: 0 1px 1px rgba($black, 0.6);
+        opacity: 0;
+
+        h3 {
+          margin-bottom: 0;
+          display: block;
+          width: 100%;
+          font-size: .5vw;
+          font-weight: 600;
+        }
+
+        .info {
+          display: block;
+          width: 100%;
+          font-size: 0;
+
+          .year {
+            display: inline-block;
+            width: auto;
+            font-size: .4vw;
+            font-weight: 600;
+            margin-right: .4vw;
+            color: $match;
+          }
+
+          .age {
+            font-family: $default-font;
+            display: inline-block;
+            position: relative;
+            width: auto;
+            font-size: .4vw;
+            padding: 0 0.4em;
+            margin-right: .4vw;
+            border: solid 1px rgba($white, 0.4);
+          }
+
+          .dur {
+            display: inline-block;
+            width: auto;
+            font-size: .4vw;
+          }
+        }
+
+        .tags {
+          display: block;
+          width: 100%;
+
+          span {
+            display: inline-block;
+            width: auto;
+            font-size: .4vw;
+            margin: 0 .3vw 0 0;
+
+            &:after {
+              content:"●";
+              display: inline-block;
+              margin: 0 0 0 .3vw;
+              font-size: .8 xvw;
+              text-shadow: 0 1px 1px rgba(0, 0, 0, 0);
+              color: rgba($white, 0.4);
+            }
+
+            &:last-child:after {
+              display: none;
+            }
+          }
+        }
+      }
+
+      &:hover {
+        .img:after {
+          opacity: 1;
+        }
+        .selected {
+          opacity: 0;
+        }
+        img {
+          opacity: 1;
+        }
+        .card-info {
+          opacity: 1;
+        }
+      }
+
+      &:first-child {transform-origin: 0px center;}
+      &:last-child {transform-origin: 100% center;}
+    }
+  }
+  li, li * {
+    transition: all .5s ease .2s 
+  }
+}
+
+.showcase {
+  position: relative;
+  height: 32vw;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right;
+  font-size: 1.2vw;
+  margin-top: .25vw;
+  top: -6vw;
+  visibility: hidden;
+  display: none;
+
+  &.visible {
+    visibility: visible;
+    display: block;
+  }
+
+  .close-icon {
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 1vw 2vw 2vw 2vw;
+    font-size: 3vw;
+    z-index: 2;
+    transition: transform .1s linear;
+
+    &:hover {
+      transform: scale(1.1);
+      transition: transform .1s linear;
+    }
+  }
+
+  .bg-gradient {
+    background-image: linear-gradient(90deg,#141414 0%, #141414 48%, transparent);
+    height: 100%;
+  }
+
+  .showcase-container {
+    width: 50%;
+    padding: 3vw;
+
+    h2 {
+      font-size: 2.5vw;
+      text-shadow: 0 1px 1px rgba($black, 0.6);
+    }
+
+    .info {
+      display: block;
+      width: 100%;
+
+      .year {
+        display: inline-block;
+        width: auto;
+        margin-right: .4vw;
+        color: $match;
+      }
+
+      .age {
+        font-family: $default-font;
+        display: inline-block;
+        position: relative;
+        width: auto;
+        line-height: normal;
+        padding: 0 0.4em;
+        margin-right: .4vw;
+        border: solid 1px rgba($white, 0.4);
+      }
+
+      .dur {
+        display: inline-block;
+        width: auto;
+      }
+    }
+
+    .btn {
+      border-radius: 0;
+      font-size: inherit;
+      transition: transform .2s linear;
+
+      &:hover{
+        transform: scale(1.1);
+        transition: transform .2s linear;
+      }
+    }
+
+    .actor span,
+    .genre span{
+      &::after {
+        content: ",";
+        display: inline-block;
+      }
+
+      &:last-child:after {
+        display: none;
+      }
+    }
+  }
+}
