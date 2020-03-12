@@ -1,11 +1,15 @@
 <template>
   <div class="higlight">
-    <lr-bg-video ref-data="lr-highlight-video"/>
+    <lr-bg-video ref-data="lr-highlight-video" />
     <div class="higlight-content">
       <h1> Crash Landing On You </h1>
       <div class="mt-4">
-        <b-button class="btn-transparent mr-2"> <b-icon-play-fill/> Putar </b-button>
-        <b-button class="btn-transparent"> <b-icon-info/> Info Lengkap </b-button>
+        <b-button class="btn-transparent mr-2">
+          <b-icon-play-fill /> Putar
+        </b-button>
+        <b-button class="btn-transparent">
+          <b-icon-info /> Info Lengkap
+        </b-button>
       </div>
     </div>
   </div>

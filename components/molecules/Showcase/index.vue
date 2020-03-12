@@ -2,9 +2,22 @@
   <div
     :class="id"
     class="showcase"
-    :style="`background-image: url('https://image.tmdb.org/t/p/original/o3Htmlg6BfNs8Ew7yjsRzVnYSEs.jpg');`"
+    :style="`background: none`"
   >
     <div class="bg-gradient">
+      <div v-if="data && (data.videos || data.banners)">
+        <lr-bg-video
+          v-if="isVideo && data.videos.length"
+          ref-data="lr-highlight-video"
+          class="h-100"
+        />
+        <b-img
+          v-else-if="data.banners.length"
+          :src="data.banners[0].path"
+        />
+      </div>
+    </div>
+    <div class="h-100">
       <div
         class="close-icon"
         @click="closeShowcase"
@@ -37,7 +50,7 @@
             <div class="actor">
               <strong>Pemeran : </strong>
               <span
-                v-for="actor in data.actors"
+                v-for="actor in limitedActors"
                 :key="actor.ID"
               >
                 {{ actor.name }}
@@ -67,7 +80,8 @@
 <script>
 import dayjs from 'dayjs'
 
-import { BIconX, BIconPlayFill, BTab, BButton } from 'bootstrap-vue'
+import { BIconX, BIconPlayFill, BTab, BButton, BImg } from 'bootstrap-vue'
+import LrBgVideo from '~/components/atoms/LrBgVideo'
 
 import LRTabs from '~/components/atoms/LRTabs'
 
@@ -76,7 +90,9 @@ export default {
     LRTabs,
     BTab,
     BButton,
+    BImg,
     BIconX,
+    LrBgVideo,
     BIconPlayFill
   },
 
@@ -90,6 +106,22 @@ export default {
       type: Object,
       required: true,
       default: () => {}
+    }
+  },
+
+  data () {
+    return {
+      isVideo: false
+    }
+  },
+
+  computed: {
+    limitedActors () {
+      if (this.data.actors.length > 4) {
+        return this.data.actors.slice(0, 4)
+      } else {
+        return this.data.actors
+      }
     }
   },
 

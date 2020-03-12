@@ -1,12 +1,13 @@
 <template>
   <div
     ref="plyr-container"
-    class="lr-video-player"
+    class="lr-video-player h-100"
   >
     <vue-plyr
+      :ref="refData"
       :options="{controls: []}"
       no-ssr
-      :ref="refData"
+      class="h-100"
     >
       <div class="plyr__video-embed">
         <iframe
@@ -14,20 +15,19 @@
           allowfullscreen
           allowtransparency
           allow="autoplay"
-        >
-        </iframe>
+        />
       </div>
     </vue-plyr>
     <div class="floating-control">
       <b-icon-play-fill
-        @click="play()"
         class="rounded-circle btn-transparent p-1 mr-2"
         font-scale="2"
+        @click="play()"
       />
       <b-icon-volume-mute-fill
-        @click="mute()"
         class="rounded-circle btn-transparent p-1"
         font-scale="2"
+        @click="mute()"
       />
     </div>
   </div>

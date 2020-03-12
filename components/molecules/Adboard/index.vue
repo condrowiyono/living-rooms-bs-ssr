@@ -13,8 +13,12 @@
             <h2> Crash Landing On You </h2>
             <p>A paragliding mishap drops a South Korean heiress in North Korea -- and into the life of an army officer, who decides he will help her hide.</p>
             <div class="mt-4">
-              <b-button class="btn-transparent mr-2"> <b-icon-play-fill/> Putar </b-button>
-              <b-button class="btn-transparent"> <b-icon-info/> Info Lengkap </b-button>
+              <b-button class="btn-transparent mr-2">
+                <b-icon-play-fill /> Putar
+              </b-button>
+              <b-button class="btn-transparent">
+                <b-icon-info /> Info Lengkap
+              </b-button>
             </div>
           </div>
         </div>
@@ -59,6 +63,10 @@ export default {
       height: inherit;
       display: flex;
       align-items: center;
+    }
+
+    &__left {
+      padding: 2vw 0;
     }
 
     &__right {
