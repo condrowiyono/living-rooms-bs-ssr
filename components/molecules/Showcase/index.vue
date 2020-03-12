@@ -123,6 +123,8 @@ export default {
         } else {
           return this.data.actors
         }
+      } else {
+        return []
       }
     }
   },
