@@ -117,10 +117,12 @@ export default {
 
   computed: {
     limitedActors () {
-      if (this.data.actors.length > 4) {
-        return this.data.actors.slice(0, 4)
-      } else {
-        return this.data.actors
+      if (this.data.actors) {
+        if (this.data.actors.length > 4) {
+          return this.data.actors.slice(0, 4)
+        } else {
+          return this.data.actors
+        }
       }
     }
   },
