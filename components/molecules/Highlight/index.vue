@@ -2,7 +2,10 @@
   <div class="higlight">
     <lr-bg-video ref-data="lr-highlight-video" />
     <div class="higlight-content">
-      <h1> Crash Landing On You </h1>
+      <h2> Crash Landing On You </h2>
+      <p>
+        A paragliding mishap drops a South Korean heiress in North Korea -- and into the life of an army officer, who decides he will help her hide.
+      </p>
       <div class="mt-4">
         <b-button class="btn-transparent mr-2">
           <b-icon-play-fill /> Putar
@@ -30,18 +33,25 @@ export default {
 </script>
 
 <style lang="scss">
+@import './assets/scss/_color.scss';
+
 .higlight {
   transform: translateY(-60px);
   position: relative;
 
   .higlight-content {
+    max-width: 40%;
     z-index: 3;
     position: absolute;
-    margin: 0 3vw;
-    top:24vw;
+    margin: 0 4vw;
+    top:20vw;
 
-    h1 {
-      font-size: 4vw;
+    h2 {
+      font-size: 3vw;
+    }
+
+    p {
+      font-size: 1.2vw;
     }
   }
 

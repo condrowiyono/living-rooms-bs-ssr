@@ -1,5 +1,5 @@
 <template>
-  <div class="rl-skeleton">
+  <div class="lr-skeleton">
     <ul class="skeleton">
       <li
         v-for="m in n"
@@ -14,6 +14,7 @@
     </ul>
   </div>
 </template>
+
 <script>
 export default {
   props: {
@@ -21,10 +22,12 @@ export default {
       type: Number,
       default: 150
     },
+
     n: {
       type: Number,
       default: 9
     },
+
     duration: {
       type: Number,
       default: 1
@@ -34,8 +37,8 @@ export default {
 </script>
 
 <style lang="scss">
-.rl-skeleton {
-  margin: 0 3vw;
+.lr-skeleton {
+  margin: 0 4vw;
 
   ul.skeleton {
     padding: 0;

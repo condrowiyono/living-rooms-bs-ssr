@@ -1,8 +1,5 @@
 <template>
-  <b-tabs
-    class="lr-tabs"
-    content-class="mt-3"
-  >
+  <b-tabs class="lr-tabs">
     <slot />
   </b-tabs>
 </template>

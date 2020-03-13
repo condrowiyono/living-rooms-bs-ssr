@@ -46,10 +46,10 @@
                   </div>
                   <div class="tags">
                     <span
-                      v-for="genre in movie.genre"
-                      :key="genre"
+                      v-for="genre in movie.genres"
+                      :key="genre.ID"
                     >
-                      {{ genre }}
+                      {{ genre.name }}
                     </span>
                   </div>
                 </div>
@@ -61,13 +61,10 @@
           :id="`${id}-${idx}`"
           :data="slideDetail"
           @close="closeShowcase"
+          @title-click="handleTitleClick"
+          @play-click="handlePlayClick"
+          @video-click="handleVideoClick"
         />
-      </div>
-      <div class="text-center">
-        <b-button>
-          <b-spinner small label="Spinning" />
-          LOAD MORE
-        </b-button>
       </div>
     </section>
   </div>
@@ -79,7 +76,6 @@ import $ from 'jquery'
 import { chunk } from 'lodash'
 import dayjs from 'dayjs'
 
-import { BButton, BSpinner } from 'bootstrap-vue'
 import Showcase from '~/components/molecules/Showcase'
 import Skeleton from '~/components/atoms/Skeleton'
 import hover from '~/components/molecules/Layout/utils'
@@ -87,8 +83,6 @@ import isObjectEmpty from '~/lib/Object'
 
 export default {
   components: {
-    BButton,
-    BSpinner,
     Showcase,
     Skeleton
   },
@@ -137,9 +131,7 @@ export default {
     fetchMovie (id, containerId) {
       $('.showcase').removeClass('visible')
 
-      this.$store
-        .dispatch('movie/FETCH_MOVIE_DETAIL', { id, caller: this.id })
-        .catch(() => {})
+      this.$store.dispatch('movie/FETCH_MOVIE_DETAIL', { id, caller: this.id })
 
       // Refactor here
       $(`.${this.id}-${containerId}`).addClass('visible')
@@ -152,6 +144,28 @@ export default {
     closeShowcase () {
       this.$store.dispatch('movie/RESET_MOVIE_DETAIL')
       $('.showcase').removeClass('visible')
+    },
+
+    handleTitleClick (id) {
+      console.warn(id)
+      this.$router.push({
+        name: 'movie-id',
+        params: { id }
+      })
+    },
+
+    handlePlayClick (playerID) {
+      this.$router.push({
+        name: 'player-id',
+        params: { id: playerID }
+      })
+    },
+
+    handleVideoClick (videoID) {
+      this.$router.push({
+        name: 'video-id',
+        params: { id: videoID }
+      })
     }
   }
 }

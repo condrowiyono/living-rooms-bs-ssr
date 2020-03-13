@@ -7,7 +7,9 @@
       sticky
     >
       <b-navbar-brand>
-        Living Rooms
+        <nuxt-link :to="{ name: 'home' }">
+          Living Rooms
+        </nuxt-link>
       </b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse" />
@@ -17,43 +19,44 @@
         is-nav
       >
         <b-navbar-nav>
-          <b-nav-item>Home</b-nav-item>
-          <b-nav-item>Movie</b-nav-item>
-          <b-nav-item>TV Series</b-nav-item>
-          <b-nav-item>Bola</b-nav-item>
+          <b-nav-item :to="{ name: 'home' }">
+            Home
+          </b-nav-item>
+          <b-nav-item :to="{ name: 'movie' }">
+            Movie
+          </b-nav-item>
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto">
           <div class="flex items-center">
-            <b-form-input
-              size="sm"
-              class="w-64 bg-black"
-              placeholder="Search"
-              style="border-radius: 0;"
-            />
+            <b-input-group class="search" size="sm">
+              <template v-slot:prepend>
+                <b-input-group-text>
+                  <b-icon-search />
+                </b-input-group-text>
+              </template>
+              <template
+                v-if="search !== ''"
+                v-slot:append
+              >
+                <b-input-group-text>
+                  <b-icon-x @click="handleClearSearch" />
+                </b-input-group-text>
+              </template>
+              <b-form-input
+                ref="search"
+                placeholder="Search . . ."
+                v-model="search"
+                :class="{
+                  'filled' : (search !== '')
+                }"
+              />
+            </b-input-group>
           </div>
-
-          <b-nav-item-dropdown right>
-            <template v-slot:button-content>
-              Login
-            </template>
-            <b-dropdown-item @click="$router.push('/in')">
-              Login
-            </b-dropdown-item>
-          </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
     <nuxt />
-    <div class="px-36 pb-12">
-      <b-container>
-        <b-row>
-          <b-col>Tentang Kami</b-col>
-          <b-col>Didukung oleh GdrivePlayer</b-col>
-          <b-col>Semangat</b-col>
-        </b-row>
-      </b-container>
-    </div>
   </div>
 </template>
 
@@ -65,12 +68,11 @@ import {
   BNavbarNav,
   BCollapse,
   BNavItem,
-  BNavItemDropdown,
-  BDropdownItem,
   BFormInput,
-  BContainer,
-  BRow,
-  BCol
+  BInputGroup,
+  BInputGroupText,
+  BIconSearch,
+  BIconX
 } from 'bootstrap-vue'
 
 export default {
@@ -81,17 +83,17 @@ export default {
     BNavbarNav,
     BCollapse,
     BNavItem,
-    BNavItemDropdown,
-    BDropdownItem,
     BFormInput,
-    BContainer,
-    BRow,
-    BCol
+    BInputGroup,
+    BInputGroupText,
+    BIconSearch,
+    BIconX
   },
 
   data () {
     return {
-      transparentNavbar: true
+      transparentNavbar: true,
+      search: ''
     }
   },
 
@@ -110,6 +112,11 @@ export default {
         return
       }
       this.transparentNavbar = currentScrollPosition < 64
+    },
+
+    handleClearSearch () {
+      this.search = ''
+      this.$refs.search.$el.focus()
     }
   }
 }
@@ -122,12 +129,45 @@ export default {
   .navbar {
     background: linear-gradient(180deg, rgba($black,1) 0%, rgba($black,0.6) 10%, rgba($black,0) 100%);
     transition: background-color .3s linear;
-    padding: .5rem 2rem;
-    font-size: 1vw;
+    padding: .5rem 3rem;
+    font-size: clamp(0.8rem, 0.5vw, 1.2rem);
   }
+
   .navbar--solid {
     background-color: $black!important;
     transition: background-color .3s linear;
+  }
+
+  .nuxt-link-active {
+    color: $white;
+  }
+
+  .search {
+    border-radius: 0;
+    width: 250px;
+
+    * {
+      border-radius: 0!important;
+      background: transparent!important;
+      color: $white!important;
+    }
+
+    .input-group-prepend .input-group-text {
+      border-right-style: none;
+    }
+
+    input {
+      border-left-style: none;
+
+      &.filled {
+        border-right-style: none;
+      }
+    }
+
+    .input-group-append .input-group-text {
+      cursor: pointer;
+      border-left-style: none;
+    }
   }
 }
 </style>

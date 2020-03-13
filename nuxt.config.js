@@ -46,6 +46,10 @@ export default {
     // Doc: https://bootstrap-vue.js.org
     // 'bootstrap-vue/nuxt'
   ],
+  router: {
+    linkActiveClass: 'active',
+    linkExactActiveClass: 'active'
+  },
   bootstrapVue: {
     // components: [
     //   'BNavbar',

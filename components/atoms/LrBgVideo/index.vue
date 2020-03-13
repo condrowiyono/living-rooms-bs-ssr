@@ -11,9 +11,9 @@
     >
       <div class="plyr__video-embed">
         <iframe
+          title="plyr"
           src="https://www.youtube-nocookie.com/embed/BDoKNExX9kY?controls=0&rel=0"
           allowfullscreen
-          allowtransparency
           allow="autoplay"
         />
       </div>
@@ -43,6 +43,7 @@ export default {
     BIconVolumeMuteFill,
     BIconPlayFill
   },
+
   props: {
     refData: {
       type: String,
@@ -50,15 +51,18 @@ export default {
       required: true
     }
   },
+
   computed: {
     player () {
       return this.$refs[this.ref].player
     }
   },
+
   methods: {
     play () {
       this.$refs[this.refData].player.togglePlay()
     },
+
     mute () {
       if (this.$refs[this.refData].player.volume === 0) {
         this.$refs[this.refData].player.volume = 1

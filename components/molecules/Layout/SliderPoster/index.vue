@@ -68,6 +68,9 @@
         :id="id"
         :data="slideDetail"
         @close="closeShowcase"
+        @title-click="handleTitleClick"
+        @play-click="handlePlayClick"
+        @video-click="handleVideoClick"
       />
     </section>
   </div>
@@ -135,9 +138,7 @@ export default {
       // Refactor here
       $('.showcase').removeClass('visible')
 
-      this.$store
-        .dispatch('movie/FETCH_MOVIE_DETAIL', { id, caller: this.id })
-        .catch(() => {})
+      this.$store.dispatch('movie/FETCH_MOVIE_DETAIL', { id, caller: this.id })
 
       // Refactor here
       $(`.showcase.${this.id}`).addClass('visible')
@@ -150,6 +151,27 @@ export default {
     closeShowcase () {
       this.$store.dispatch('movie/RESET_MOVIE_DETAIL')
       $(`.showcase.${this.id}`).removeClass('visible')
+    },
+
+    handleTitleClick (id) {
+      this.$router.push({
+        name: 'movie-id',
+        params: { id }
+      })
+    },
+
+    handlePlayClick (playerID) {
+      this.$router.push({
+        name: 'player-id',
+        params: { id: playerID }
+      })
+    },
+
+    handleVideoClick (videoID) {
+      this.$router.push({
+        name: 'video-id',
+        params: { id: videoID }
+      })
     }
   }
 }

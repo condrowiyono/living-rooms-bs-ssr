@@ -12,7 +12,7 @@ export default function hover (mainClass, orientationClass) {
       function () {
         $(this).toggleClass('hover')
 
-        const scaleFactor = orientationClass === 'is-horizontal' ? 1.5 : 2.8
+        const scaleFactor = orientationClass === 'is-horizontal' ? 1.8 : 2.8
         const wBigElement = $(this).width() * scaleFactor
         const translation = (wBigElement - $(this).width()) / 2
 

@@ -53,7 +53,7 @@ export default {
   }
 
   .adboard-container {
-    margin: 0 3vw;
+    margin: 0 4vw;
     display: flex;
     height: 100%;
 
@@ -70,7 +70,7 @@ export default {
     }
 
     &__right {
-      margin-left: 3vw;
+      margin-left: 4vw;
       font-size: 1.2vw;
 
       h2 {

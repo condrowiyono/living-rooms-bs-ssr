@@ -46,15 +46,15 @@
                       {{ movie.rated }}
                     </div>
                     <div class="dur">
-                      {{ movie.runtime }}
+                      {{ movie.runtime }} m
                     </div>
                   </div>
                   <div class="tags">
                     <span
-                      v-for="genre in movie.genre"
-                      :key="genre"
+                      v-for="genre in movie.genres"
+                      :key="genre.id"
                     >
-                      {{ genre }}
+                      {{ genre.name }}
                     </span>
                   </div>
                 </div>
@@ -67,6 +67,9 @@
         :id="id"
         :data="slideDetail"
         @close="closeShowcase"
+        @title-click="handleTitleClick"
+        @play-click="handlePlayClick"
+        @video-click="handleVideoClick"
       />
     </section>
   </div>
@@ -136,11 +139,9 @@ export default {
     fetchMovie (id) {
       $('.showcase').removeClass('visible')
 
-      this.$store
-        .dispatch('movie/FETCH_MOVIE_DETAIL', { id, caller: this.id })
-        .catch(() => {})
-      // Refactor here
+      this.$store.dispatch('movie/FETCH_MOVIE_DETAIL', { id, caller: this.id })
 
+      // Refactor here
       $(`.${this.id}`).addClass('visible')
     },
 
@@ -151,6 +152,28 @@ export default {
     closeShowcase () {
       this.$store.dispatch('movie/RESET_MOVIE_DETAIL')
       $(`.${this.id}`).removeClass('visible')
+    },
+
+    handleTitleClick (id) {
+      console.warn(id)
+      this.$router.push({
+        name: 'movie-id',
+        params: { id }
+      })
+    },
+
+    handlePlayClick (playerID) {
+      this.$router.push({
+        name: 'player-id',
+        params: { id: playerID }
+      })
+    },
+
+    handleVideoClick (videoID) {
+      this.$router.push({
+        name: 'video-id',
+        params: { id: videoID }
+      })
     }
   }
 }
@@ -166,8 +189,8 @@ section.lr-slider.is-horizontal {
     width: calc(100% / 6);
 
     .card-info {
-      bottom: 0;
-      padding: 10% 5%;
+      bottom: 15%;
+      padding: 0 5%;
       transform: none;
 
       h3 {

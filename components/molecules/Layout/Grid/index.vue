@@ -45,10 +45,10 @@
                   </div>
                   <div class="tags">
                     <span
-                      v-for="genre in movie.genre"
-                      :key="genre"
+                      v-for="genre in movie.genres"
+                      :key="genre.ID"
                     >
-                      {{ genre }}
+                      {{ genre.name }}
                     </span>
                   </div>
                 </div>
@@ -60,6 +60,9 @@
           :id="`${id}-${idx}`"
           :data="slideDetail"
           @close="closeShowcase"
+          @title-click="handleTitleClick"
+          @play-click="handlePlayClick"
+          @video-click="handleVideoClick"
         />
       </div>
     </section>
@@ -124,9 +127,7 @@ export default {
     fetchMovie (id, containerId) {
       $('.showcase').removeClass('visible')
 
-      this.$store
-        .dispatch('movie/FETCH_MOVIE_DETAIL', { id, caller: this.id })
-        .catch(() => {})
+      this.$store.dispatch('movie/FETCH_MOVIE_DETAIL', { id, caller: this.id })
 
       // Refactor here
       $(`.${this.id}-${containerId}`).addClass('visible')
@@ -139,6 +140,28 @@ export default {
     closeShowcase () {
       this.$store.dispatch('movie/RESET_MOVIE_DETAIL')
       $('.showcase').removeClass('visible')
+    },
+
+    handleTitleClick (id) {
+      console.warn(id)
+      this.$router.push({
+        name: 'movie-id',
+        params: { id }
+      })
+    },
+
+    handlePlayClick (playerID) {
+      this.$router.push({
+        name: 'player-id',
+        params: { id: playerID }
+      })
+    },
+
+    handleVideoClick (videoID) {
+      this.$router.push({
+        name: 'video-id',
+        params: { id: videoID }
+      })
     }
   }
 }
