@@ -141,7 +141,7 @@
                 </div>
                 <div class="title mt-4"> Sumber Video </div>
                 <div class="body">
-                  {{ data.player.source }}
+                  {{ data.player ? data.player.source : '-' }}
                 </div>
                 <div class="title mt-4"> TMDB ID </div>
                 <div class="body">

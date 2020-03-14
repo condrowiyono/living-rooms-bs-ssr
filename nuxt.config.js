@@ -1,3 +1,4 @@
+require('dotenv').config()
 
 export default {
   mode: 'universal',
@@ -45,6 +46,7 @@ export default {
   modules: [
     // Doc: https://bootstrap-vue.js.org
     // 'bootstrap-vue/nuxt'
+    '@nuxtjs/dotenv'
   ],
   router: {
     linkActiveClass: 'active',
