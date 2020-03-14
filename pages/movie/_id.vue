@@ -1,8 +1,8 @@
 <template>
   <div class="lr-movie">
     <showcase
-      class="visible"
       :id="`movie-${movie.ID}`"
+      class="visible"
       :data="movie"
       no-close
       @play-click="handlePlayClick"

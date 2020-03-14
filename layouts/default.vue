@@ -45,8 +45,8 @@
               </template>
               <b-form-input
                 ref="search"
-                placeholder="Search . . ."
                 v-model="search"
+                placeholder="Search . . ."
                 :class="{
                   'filled' : (search !== '')
                 }"

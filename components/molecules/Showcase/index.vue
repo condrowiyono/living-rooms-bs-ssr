@@ -28,7 +28,9 @@
       <l-r-tabs>
         <b-tab title="Overview" active>
           <div class="showcase-container">
-            <h2 @click="handleTitleClick(data.ID)">{{ data.title }}</h2>
+            <h2 @click="handleTitleClick(data.ID)">
+              {{ data.title }}
+            </h2>
             <div class="info mb-2">
               <div class="year">
                 {{ dayjs(data.released_date).format('YYYY') }}
@@ -81,7 +83,7 @@
                 class="video-item"
               >
                 <div class="thumbnail">
-                  <b-icon-camera-video-fill font-scale="2"/>
+                  <b-icon-camera-video-fill font-scale="2" />
                   <div class="hover">
                     <b-icon-play-fill
                       font-scale="3"
@@ -101,53 +103,69 @@
             <h2>{{ data.title }}</h2>
             <div class="d-flex">
               <div class="section">
-                <div class="title"> Cast </div>
+                <div class="title">
+                  Cast
+                </div>
                 <div class="body">
                   <nuxt-link
-                    class="item"
-                    :to="''"
                     v-for="actor in limitedActors(8)"
                     :key="actor.ID"
+                    class="item"
+                    :to="''"
                   >
                     {{ actor.name }}
                   </nuxt-link>
                 </div>
               </div>
               <div class="section">
-                <div class="title"> Genre </div>
+                <div class="title">
+                  Genre
+                </div>
                 <div class="body">
                   <nuxt-link
-                    class="item"
-                    :to="''"
                     v-for="genre in data.genres"
                     :key="genre.ID"
+                    class="item"
+                    :to="''"
                   >
                     {{ genre.name }}
                   </nuxt-link>
                 </div>
-                <div class="title mt-4"> Rating TMDB </div>
+                <div class="title mt-4">
+                  Rating TMDB
+                </div>
                 <div class="body">
                   {{ data.vote_average }}
                 </div>
-                <div class="title mt-4"> Awards </div>
+                <div class="title mt-4">
+                  Awards
+                </div>
                 <div class="body">
                   {{ data.awards ? data.awards : '-' }}
                 </div>
               </div>
               <div class="section">
-                <div class="title"> Kelompuk Umur </div>
+                <div class="title">
+                  Kelompuk Umur
+                </div>
                 <div class="body">
                   {{ data.rated }}
                 </div>
-                <div class="title mt-4"> Sumber Video </div>
+                <div class="title mt-4">
+                  Sumber Video
+                </div>
                 <div class="body">
                   {{ data.player ? data.player.source : '-' }}
                 </div>
-                <div class="title mt-4"> TMDB ID </div>
+                <div class="title mt-4">
+                  TMDB ID
+                </div>
                 <div class="body">
                   {{ data.tmdb_id }}
                 </div>
-                <div class="title mt-4"> IMDB ID </div>
+                <div class="title mt-4">
+                  IMDB ID
+                </div>
                 <div class="body">
                   {{ data.imdb_id }}
                 </div>
