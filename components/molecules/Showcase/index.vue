@@ -10,6 +10,7 @@
           v-if="isVideo && data.videos.length"
           ref-data="lr-highlight-video"
           class="h-100"
+          :player-src="data.videos[0].player_url"
         />
         <b-img
           v-else-if="data.banners.length"
@@ -25,7 +26,7 @@
       >
         <b-icon-x />
       </div>
-      <l-r-tabs>
+      <l-r-tabs v-if="!loading">
         <b-tab title="Overview" active>
           <div class="showcase-container">
             <h2 @click="handleTitleClick(data.ID)">
@@ -33,13 +34,13 @@
             </h2>
             <div class="info mb-2">
               <div class="year">
-                {{ dayjs(data.released_date).format('YYYY') }}
+                {{ dayjs(data.release_date).format('YYYY') }}
               </div>
               <div class="age">
                 {{ data.rated }}
               </div>
               <div class="dur">
-                {{ data.runtime }} m
+                {{ inHour(data.runtime) }}
               </div>
             </div>
             <div class="plot mb-4">
@@ -82,11 +83,16 @@
                 :key="video.ID"
                 class="video-item"
               >
-                <div class="thumbnail">
+                <div
+                  class="thumbnail"
+                  :style="{
+                    backgroundImage: `url('${getThumbnails(video.player_url)}')`
+                  }"
+                >
                   <b-icon-camera-video-fill font-scale="2" />
                   <div class="hover">
                     <b-icon-play-fill
-                      font-scale="3"
+                      font-scale="4"
                       @click="handleVideoClick(video.ID)"
                     />
                   </div>
@@ -204,12 +210,19 @@ export default {
       required: true,
       default: 'showcase-id'
     },
+
     data: {
       type: Object,
       required: true,
       default: () => {}
     },
+
     noClose: {
+      type: Boolean,
+      default: false
+    },
+
+    loading: {
       type: Boolean,
       default: false
     }
@@ -226,6 +239,12 @@ export default {
 
     closeShowcase () {
       this.$emit('close')
+    },
+
+    inHour (min) {
+      const hour = Math.floor(min / 60)
+      min = min % 60
+      return `${hour} j ${min} m`
     },
 
     handleTitleClick (id) {
@@ -249,6 +268,19 @@ export default {
         }
       } else {
         return []
+      }
+    },
+
+    getThumbnails (url) {
+      const youtube = 'https://img.youtube.com/vi/{id}/0.jpg'
+
+      // eslint-disable-next-line
+      const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
+      const match = url.match(regExp)
+      if (match && match[2].length === 11) {
+        return youtube.replace('{id}', match[2])
+      } else {
+        return ''
       }
     }
   }

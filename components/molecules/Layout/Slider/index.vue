@@ -40,7 +40,7 @@
                   <h3>{{ movie.title }}</h3>
                   <div class="info">
                     <div class="year">
-                      {{ dayjs(movie.released_date).format('YYYY') }}
+                      {{ dayjs(movie.release_date).format('YYYY') }}
                     </div>
                     <div class="age">
                       {{ movie.rated }}
@@ -66,6 +66,7 @@
       <showcase
         :id="id"
         :data="slideDetail"
+        :loading="isFetching"
         @close="closeShowcase"
         @title-click="handleTitleClick"
         @play-click="handlePlayClick"
@@ -86,9 +87,6 @@ import Showcase from '~/components/molecules/Showcase'
 import hover from '~/components/molecules/Layout/utils'
 
 import isObjectEmpty from '~/lib/Object'
-
-import 'vue-slick-carousel/dist/vue-slick-carousel.css'
-import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 
 export default {
   components: {
@@ -120,6 +118,10 @@ export default {
 
     slideDetailCaller () {
       return this.$store.state.movie.caller
+    },
+
+    isFetching () {
+      return this.$store.state.movie.isFetching
     },
 
     slideContainer () {

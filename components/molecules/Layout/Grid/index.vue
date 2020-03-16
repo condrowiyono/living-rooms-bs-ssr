@@ -34,7 +34,7 @@
                   <h3>{{ movie.title }}</h3>
                   <div class="info">
                     <div class="year">
-                      {{ dayjs(movie.released_date).format('YYYY') }}
+                      {{ dayjs(movie.release_date).format('YYYY') }}
                     </div>
                     <div class="age">
                       {{ movie.rated }}
@@ -59,6 +59,7 @@
         <showcase
           :id="`${id}-${idx}`"
           :data="slideDetail"
+          :loading="isFetching"
           @close="closeShowcase"
           @title-click="handleTitleClick"
           @play-click="handlePlayClick"
@@ -108,6 +109,10 @@ export default {
 
     slideDetailCaller () {
       return this.$store.state.movie.caller
+    },
+
+    isFetching () {
+      return this.$store.state.movie.isFetching
     },
 
     slideContainer () {

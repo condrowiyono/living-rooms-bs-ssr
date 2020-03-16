@@ -46,9 +46,11 @@ export default {
     movies () {
       return this.$store.state.movie.movies
     },
+
     latestMovies () {
       return this.$store.state.movie.latestMovies
     },
+
     loading () {
       return this.$store.state.movie.isFetching
     }

@@ -6,65 +6,68 @@
           {{ title }}
         </a>
       </h2>
-      <skeleton :class="`loading-${id}`" />
-      <div
-        v-for="(slide, idx) in slideContainer"
-        :key="idx"
-      >
-        <div class="slider">
-          <ul class="lr-slider-slide is-vertical">
-            <li
-              v-for="movie in slide"
-              :key="movie.ID"
-              :class="`${id}${movie.ID}`"
-            >
-              <div
-                @click="fetchMovie(movie.ID, idx)"
+      <skeleton v-if="loading" />
+      <div v-if="!loading">
+        <div
+          v-for="(slide, idx) in slideContainer"
+          :key="idx"
+        >
+          <div class="slider">
+            <ul class="lr-slider-slide is-vertical">
+              <li
+                v-for="movie in slide"
+                :key="movie.ID"
+                :class="`${id}${movie.ID}`"
               >
                 <div
-                  class="img"
-                  :style="`background-image: url(${movie.posters[0].path});`"
+                  @click="fetchMovie(movie.ID, idx)"
                 >
                   <div
-                    v-if="isSelected(movie.ID)"
-                    class="selected"
-                  />
-                  <img :src="movie.banners[0].path">
-                </div>
-                <div class="card-info">
-                  <h3>{{ movie.title }}</h3>
-                  <div class="info">
-                    <div class="year">
-                      {{ dayjs(movie.released_date).format('YYYY') }}
+                    class="img"
+                    :style="`background-image: url(${movie.posters[0].path});`"
+                  >
+                    <div
+                      v-if="isSelected(movie.ID)"
+                      class="selected"
+                    />
+                    <img :src="movie.banners[0].path">
+                  </div>
+                  <div class="card-info">
+                    <h3>{{ movie.title }}</h3>
+                    <div class="info">
+                      <div class="year">
+                        {{ dayjs(movie.release_date).format('YYYY') }}
+                      </div>
+                      <div class="age">
+                        {{ movie.rated }}
+                      </div>
+                      <div class="dur">
+                        {{ movie.runtime }}
+                      </div>
                     </div>
-                    <div class="age">
-                      {{ movie.rated }}
-                    </div>
-                    <div class="dur">
-                      {{ movie.runtime }}
+                    <div class="tags">
+                      <span
+                        v-for="genre in movie.genres"
+                        :key="genre.ID"
+                      >
+                        {{ genre.name }}
+                      </span>
                     </div>
                   </div>
-                  <div class="tags">
-                    <span
-                      v-for="genre in movie.genres"
-                      :key="genre.ID"
-                    >
-                      {{ genre.name }}
-                    </span>
-                  </div>
                 </div>
-              </div>
-            </li>
-          </ul>
+              </li>
+            </ul>
+          </div>
+          <showcase
+            :id="`${id}-${idx}`"
+            :data="slideDetail"
+            :loading="isFetching"
+            @close="closeShowcase"
+            @title-click="handleTitleClick"
+            @play-click="handlePlayClick"
+            @video-click="handleVideoClick"
+          />
         </div>
-        <showcase
-          :id="`${id}-${idx}`"
-          :data="slideDetail"
-          @close="closeShowcase"
-          @title-click="handleTitleClick"
-          @play-click="handlePlayClick"
-          @video-click="handleVideoClick"
-        />
       </div>
     </section>
   </div>
@@ -101,6 +104,10 @@ export default {
     content: {
       type: Array,
       default: () => []
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -113,14 +120,31 @@ export default {
       return this.$store.state.movie.caller
     },
 
+    isFetching () {
+      return this.$store.state.movie.isFetchingDetail
+    },
+
     slideContainer () {
       return chunk(this.content, 9)
     }
   },
 
+  watch: {
+    content: {
+      deep: true,
+      handler () {
+        this.$store.dispatch('movie/RESET_MOVIE_DETAIL')
+        $('.showcase').removeClass('visible')
+      }
+    }
+  },
+
+  updated () {
+    hover('lr-slider-slide', 'is-vertical')
+  },
+
   mounted () {
     hover('lr-slider-slide', 'is-vertical')
-    $(`.loading-${this.id}`).remove()
   },
 
   methods: {
@@ -147,7 +171,6 @@ export default {
     },
 
     handleTitleClick (id) {
-      console.warn(id)
       this.$router.push({
         name: 'movie-id',
         params: { id }

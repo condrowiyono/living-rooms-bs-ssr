@@ -23,6 +23,7 @@
       :id="id"
       :title="title"
       :content="content"
+      :loading="loading"
     />
   </div>
 </template>
@@ -33,6 +34,9 @@ import Slider from './Slider'
 import GridPoster from './GridPoster'
 import Grid from './Grid'
 
+import 'vue-slick-carousel/dist/vue-slick-carousel.css'
+import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
+
 export default {
   components: {
     SliderPoster,
@@ -40,6 +44,7 @@ export default {
     GridPoster,
     Grid
   },
+
   props: {
     type: {
       type: String,
@@ -59,7 +64,15 @@ export default {
     content: {
       type: Array,
       default: () => []
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
+  },
+
+  mounted () {
+    this.$store.dispatch('movie/RESET_MOVIE_DETAIL')
   }
 }
 </script>

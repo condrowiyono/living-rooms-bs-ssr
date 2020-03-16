@@ -1,10 +1,27 @@
 <template>
-  <div class="higlight">
-    <lr-bg-video ref-data="lr-highlight-video" />
+  <div
+    class="higlight"
+    @mouseenter.once="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
+  >
+    <transition name="fade">
+      <lr-bg-video
+        v-if="!toggleImage"
+        ref="lr-bg-video-highlight"
+        ref-data="lr-highlight-video"
+        autoplay
+        player-src="https://www.youtube-nocookie.com/embed/5xH0HfJHsaY?controls=0"
+      />
+      <b-img
+        v-else
+        fluid
+        src="https://image.tmdb.org/t/p/original/8K001T1pcEDQSOYwEI1wKps1qcA.jpg"
+      />
+    </transition>
     <div class="higlight-content">
-      <h2> Crash Landing On You </h2>
+      <h2> Parasite </h2>
       <p>
-        A paragliding mishap drops a South Korean heiress in North Korea -- and into the life of an army officer, who decides he will help her hide.
+        All unemployed, Ki-taek's family takes peculiar interest in the wealthy and glamorous Parks for their livelihood until they get entangled in an unexpected incident.
       </p>
       <div class="mt-4">
         <b-button class="btn-transparent mr-2">
@@ -19,7 +36,7 @@
 </template>
 
 <script>
-import { BButton, BIconPlayFill, BIconInfo } from 'bootstrap-vue'
+import { BButton, BIconPlayFill, BIconInfo, BImg } from 'bootstrap-vue'
 import LrBgVideo from '~/components/atoms/LrBgVideo'
 
 export default {
@@ -27,7 +44,31 @@ export default {
     BButton,
     BIconPlayFill,
     BIconInfo,
+    BImg,
     LrBgVideo
+  },
+
+  data () {
+    return {
+      timeoutID: '',
+      toggleImage: true
+    }
+  },
+
+  beforeDestroy () {
+    clearTimeout(this.timeoutID)
+  },
+
+  methods: {
+    handleMouseEnter (event) {
+      this.timeoutID = setTimeout(() => {
+        this.toggleImage = false
+      }, 2500)
+    },
+
+    handleMouseLeave (event) {
+      clearTimeout(this.timeoutID)
+    }
   }
 }
 </script>

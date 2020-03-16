@@ -1,8 +1,6 @@
 <template>
   <div class="lr-player">
-    <div
-      class="title"
-    >
+    <div class="title">
       <nuxt-link
         :to="{
           name: 'movie-id',
@@ -46,22 +44,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.lr-player {
-  .title {
-    height: 60px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    position: absolute;
-    background: #141414;
-    font-size: clamp(1rem, 1.2vw, 1.5rem);
-    padding-left: 3vw;
-  }
-
-  .player {
-    height: 100vh;
-  }
-}
-</style>

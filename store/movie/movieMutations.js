@@ -32,18 +32,18 @@ export default {
   },
 
   [types.FETCH_MOVIE_DETAIL] (state, caller) {
-    state.isFetching = true
+    state.isFetchingDetail = true
     state.fetchingError = null
     state.caller = caller
   },
 
   [types.FETCH_MOVIE_DETAIL_SUCCESS] (state, data) {
-    state.isFetching = false
+    state.isFetchingDetail = false
     state.movie = data.data
   },
 
   [types.FETCH_MOVIE_DETAIL_ERROR] (state, error) {
-    state.isFetching = false
+    state.isFetchingDetail = false
     state.fetchingError = error
   },
 

@@ -1,6 +1,6 @@
 <template>
   <div class="lr-skeleton">
-    <ul class="skeleton">
+    <ul class="skeleton mt-4">
       <li
         v-for="m in n"
         :key="m"
@@ -39,6 +39,8 @@ export default {
 <style lang="scss">
 .lr-skeleton {
   margin: 0 4vw;
+  position: absolute;
+  width: calc(100% - 8vw);
 
   ul.skeleton {
     padding: 0;

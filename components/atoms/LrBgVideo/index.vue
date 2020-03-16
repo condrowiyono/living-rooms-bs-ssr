@@ -1,18 +1,15 @@
 <template>
-  <div
-    ref="plyr-container"
-    class="lr-video-player h-100"
-  >
+  <div class="lr-video-player h-100">
     <vue-plyr
       :ref="refData"
-      :options="{controls: []}"
+      :options="options"
       no-ssr
       class="h-100"
     >
       <div class="plyr__video-embed">
         <iframe
           title="plyr"
-          src="https://www.youtube-nocookie.com/embed/BDoKNExX9kY?controls=0&rel=0"
+          :src="playerSrc"
           allowfullscreen
           allow="autoplay"
         />
@@ -49,17 +46,31 @@ export default {
       type: String,
       default: 'plyr',
       required: true
+    },
+
+    playerSrc: {
+      type: String,
+      required: true
+    },
+
+    autoplay: {
+      type: Boolean,
+      default: false
     }
   },
 
-  computed: {
-    player () {
-      return this.$refs[this.ref].player
+  data () {
+    return {
+      options: {
+        autoplay: this.autoplay,
+        controls: []
+      }
     }
   },
 
   methods: {
     play () {
+      console.warn(this.$refs[this.refData].player)
       this.$refs[this.refData].player.togglePlay()
     },
 
