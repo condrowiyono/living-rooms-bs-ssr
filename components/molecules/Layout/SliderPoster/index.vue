@@ -119,7 +119,7 @@ export default {
       return this.$store.state.movie.caller
     },
     isFetching () {
-      return this.$store.state.movie.isFetching
+      return this.$store.state.movie.isFetchingDetail
     },
     slideContainer () {
       return chunk(this.content, 9)
@@ -146,7 +146,7 @@ export default {
     },
 
     isSelected (slideID) {
-      return this.slideDetail.ID === slideID && this.slideDetailCaller === this.id
+      return this.slideDetail.ID === slideID && this.slideDetailCaller === this.id && !this.isFetching
     },
 
     closeShowcase () {

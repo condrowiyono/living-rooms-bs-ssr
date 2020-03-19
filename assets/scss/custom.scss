@@ -206,15 +206,6 @@ section.lr-slider{
         .img:after {
           opacity: 1;
         }
-        .selected {
-          opacity: 0;
-        }
-        img {
-          opacity: 1;
-        }
-        .card-info {
-          opacity: 1;
-        }
       }
 
       &:first-child {transform-origin: 0px center;}

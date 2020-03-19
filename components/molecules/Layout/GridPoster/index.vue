@@ -162,7 +162,7 @@ export default {
     },
 
     isSelected (slideID) {
-      return this.slideDetail.ID === slideID && this.slideDetailCaller === this.id
+      return this.slideDetail.ID === slideID && this.slideDetailCaller === this.id && !this.isFetching
     },
 
     closeShowcase () {

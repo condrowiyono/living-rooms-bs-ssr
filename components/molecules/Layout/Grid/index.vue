@@ -112,7 +112,7 @@ export default {
     },
 
     isFetching () {
-      return this.$store.state.movie.isFetching
+      return this.$store.state.movie.isFetchingDetail
     },
 
     slideContainer () {
@@ -139,7 +139,7 @@ export default {
     },
 
     isSelected (slideID) {
-      return this.slideDetail.ID === slideID && this.slideDetailCaller === this.id
+      return this.slideDetail.ID === slideID && this.slideDetailCaller === this.id && !this.isFetching
     },
 
     closeShowcase () {

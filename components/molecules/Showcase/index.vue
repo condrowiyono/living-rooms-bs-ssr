@@ -4,20 +4,25 @@
     class="showcase"
     :style="`background: none`"
   >
-    <div class="bg-gradient">
-      <div v-if="data && (data.videos || data.banners)">
-        <lr-bg-video
-          v-if="isVideo && data.videos.length"
-          ref-data="lr-highlight-video"
-          class="h-100"
-          :player-src="data.videos[0].player_url"
-        />
-        <b-img
-          v-else-if="data.banners.length"
-          :src="data.banners[0].path"
-        />
+    <transition name="fade" v-if="!loading">
+      <div
+        class="bg-gradient"
+        :style="{backgroundColor: loading ? 'black' : ''}"
+      >
+        <div v-if="data && (data.videos || data.banners)">
+          <lr-bg-video
+            v-if="isVideo && data.videos.length"
+            ref-data="lr-highlight-video"
+            class="h-100"
+            :player-src="data.videos[0].player_url"
+          />
+          <b-img
+            v-else-if="data.banners.length"
+            :src="data.banners[0].path"
+          />
+        </div>
       </div>
-    </div>
+    </transition>
     <div class="h-100">
       <div
         v-if="!noClose"
@@ -49,6 +54,7 @@
             <div class="mb-4">
               <b-button
                 variant="danger"
+                class="btn-red"
                 @click="handlePlayClick(data.player.ID)"
               >
                 <b-icon-play-fill /> PUTAR
