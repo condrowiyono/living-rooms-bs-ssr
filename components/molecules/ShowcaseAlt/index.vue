@@ -30,7 +30,7 @@
             {{ inHour(data.runtime) }}
           </div>
         </div>
-        <div class="mb-4">
+        <div>
           <b-button
             variant="danger"
             class="btn-red"
@@ -181,6 +181,8 @@ export default {
 
   .btn {
     font-size: inherit;
+    padding-top: .2rem;
+    padding-bottom: .2rem;
   }
 }
 </style>
