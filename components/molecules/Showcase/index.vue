@@ -4,7 +4,7 @@
     class="showcase"
     :style="`background: none`"
   >
-    <transition name="fade" v-if="!loading">
+    <transition v-if="!loading" name="fade">
       <div
         class="bg-gradient"
         :style="{backgroundColor: loading ? 'black' : ''}"
@@ -116,6 +116,17 @@
             <div class="d-flex">
               <div class="section">
                 <div class="title">
+                  Director
+                </div>
+                <div class="body">
+                  <nuxt-link
+                    class="item"
+                    :to="''"
+                  >
+                    {{ data.director }}
+                  </nuxt-link>
+                </div>
+                <div class="title mt-4">
                   Cast
                 </div>
                 <div class="body">

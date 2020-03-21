@@ -25,6 +25,20 @@
       :content="content"
       :loading="loading"
     />
+    <scroll-poster
+      v-if="type==='scroll-poster'"
+      :id="id"
+      :title="title"
+      :content="content"
+      :loading="loading"
+    />
+    <grid-poster-alt
+      v-if="type==='grid-poster-alt'"
+      :id="id"
+      :title="title"
+      :content="content"
+      :loading="loading"
+    />
   </div>
 </template>
 
@@ -34,6 +48,9 @@ import Slider from './Slider'
 import GridPoster from './GridPoster'
 import Grid from './Grid'
 
+import ScrollPoster from './ScrollPoster'
+import GridPosterAlt from './GridPosterAlt'
+
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
 import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 
@@ -42,7 +59,9 @@ export default {
     SliderPoster,
     Slider,
     GridPoster,
-    Grid
+    Grid,
+    ScrollPoster,
+    GridPosterAlt
   },
 
   props: {

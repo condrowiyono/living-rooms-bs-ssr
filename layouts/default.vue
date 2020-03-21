@@ -1,7 +1,7 @@
 <template>
   <div class="lr-front-store">
     <b-navbar
-      :class="{ 'navbar--solid': !transparentNavbar }"
+      :class="{ 'navbar--solid': !transparentNavbar || $device.isMobileOrTablet }"
       toggleable="lg"
       type="dark"
       sticky
@@ -129,7 +129,6 @@ export default {
   .navbar {
     background: linear-gradient(180deg, rgba($black,1) 0%, rgba($black,0.6) 10%, rgba($black,0) 100%);
     transition: background-color .3s linear;
-    padding: .5rem 3rem;
     font-size: clamp(0.8rem, 0.5vw, 1.2rem);
   }
 

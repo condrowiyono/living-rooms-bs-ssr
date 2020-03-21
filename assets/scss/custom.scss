@@ -24,6 +24,10 @@ body {
   margin: 0 4vw;
 }
 
+.text-white-darker {
+  color: $white-darker
+}
+
 section.lr-slider{
   display: block;
   position: relative;
@@ -160,7 +164,7 @@ section.lr-slider{
           }
 
           .age {
-            font-family: $default-font;
+            font-family: $font;
             display: inline-block;
             position: relative;
             width: auto;
@@ -301,7 +305,7 @@ section.lr-slider{
       }
 
       .age {
-        font-family: $default-font;
+        font-family: $font;
         display: inline-block;
         position: relative;
         width: auto;

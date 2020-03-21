@@ -14,7 +14,7 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { href: 'https://fonts.googleapis.com/css?family=Martel+Sans&display=swap', rel: 'stylesheet' }
+      { href: 'https://fonts.googleapis.com/css?family=Muli:400,600&display=swap', rel: 'stylesheet' }
     ]
   },
   /*
@@ -31,7 +31,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    // { src: '~plugins/plyr.js' }
+    { src: '~plugins/resizer.js' }
   ],
   /*
   ** Nuxt.js dev-modules
@@ -46,8 +46,13 @@ export default {
   modules: [
     // Doc: https://bootstrap-vue.js.org
     // 'bootstrap-vue/nuxt'
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
+    [
+      '@nuxtjs/device',
+      { defaultUserAgent: 'Mozilla/5.0 (Linux; Android 5.1.1; Nexus 6 Build/LYZ28E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.39 Mobile Safari/537.36' }
+    ]
   ],
+
   router: {
     linkActiveClass: 'active',
     linkExactActiveClass: 'active'

@@ -9,6 +9,15 @@
       />
     </div>
     <layout
+      v-if="$device.isMobileOrTablet"
+      id="item-top"
+      type="grid-poster-alt"
+      :title="`Movies ${selected !== 'Genres' ? `- ${selected}` : '' }`"
+      :content="movies"
+      :loading="loading"
+    />
+    <layout
+      v-else
       id="item-top"
       type="grid-poster"
       :title="`Movies ${selected !== 'Genres' ? `- ${selected}` : '' }`"

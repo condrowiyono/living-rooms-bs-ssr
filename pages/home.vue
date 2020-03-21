@@ -1,7 +1,12 @@
 <template>
-  <div class="lr-home">
-    <highlight />
-    <div class="lr-container">
+  <div class="lr-home desktop">
+    <highlight
+      :is-mobile-or-tablet="$device.isMobileOrTablet"
+    />
+    <div
+      v-if="$device.isDesktop"
+      class="lr-container"
+    >
       <layout
         id="item-top"
         type="slider-poster"
@@ -19,6 +24,20 @@
         id="item-top23"
         type="slider"
         title="Mantap1212"
+        :content="movies"
+      />
+    </div>
+    <div v-if="$device.isMobileOrTablet" class="lr-container">
+      <layout
+        id="scroll-top"
+        type="scroll-poster"
+        title="Mantap"
+        :content="movies"
+      />
+      <layout
+        id="sss-top"
+        type="grid-poster-alt"
+        title="Mantap"
         :content="movies"
       />
     </div>

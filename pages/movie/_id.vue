@@ -1,8 +1,17 @@
 <template>
   <div class="lr-movie">
     <showcase
+      v-if="!$device.isMobileOrTablet"
       :id="`movie-${movie.ID}`"
       class="visible"
+      :data="movie"
+      no-close
+      @play-click="handlePlayClick"
+      @video-click="handleVideoClick"
+    />
+    <showcase-alt
+      v-if="$device.isMobileOrTablet"
+      :id="`movie-${movie.ID}`"
       :data="movie"
       no-close
       @play-click="handlePlayClick"
@@ -13,10 +22,12 @@
 
 <script>
 import Showcase from '~/components/molecules/Showcase'
+import ShowcaseAlt from '~/components/molecules/ShowcaseAlt'
 
 export default {
   components: {
-    Showcase
+    Showcase,
+    ShowcaseAlt
   },
 
   async fetch ({ store, params }) {

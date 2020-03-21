@@ -19,16 +19,32 @@
       />
     </transition>
     <div class="higlight-content">
-      <h2> Parasite </h2>
-      <p>
+      <h2 :style="$fontResizer(isMobileOrTablet, '1.4rem')">
+        Parasite
+      </h2>
+      <p v-if="!isMobileOrTablet">
         All unemployed, Ki-taek's family takes peculiar interest in the wealthy and glamorous Parks for their livelihood until they get entangled in an unexpected incident.
       </p>
-      <div class="mt-4">
-        <b-button class="btn-transparent mr-2">
+      <div
+        :class="{
+          'mt-2' : isMobileOrTablet,
+          'mt-4': !isMobileOrTablet
+        }"
+      >
+        <b-button
+          class="btn-transparent mr-2"
+          :style="$fontResizer(isMobileOrTablet)"
+        >
           <b-icon-play-fill /> Putar
         </b-button>
-        <b-button class="btn-transparent">
-          <b-icon-info /> Info Lengkap
+        <b-button
+          class="btn-transparent"
+          :style="$fontResizer(isMobileOrTablet)"
+        >
+          <b-icon-info />
+          <span v-if="!isMobileOrTablet">
+            Info Lengkap
+          </span>
         </b-button>
       </div>
     </div>
@@ -48,6 +64,13 @@ export default {
     LrBgVideo
   },
 
+  props: {
+    isMobileOrTablet: {
+      type: Boolean,
+      default: false
+    }
+  },
+
   data () {
     return {
       timeoutID: '',
@@ -61,6 +84,10 @@ export default {
 
   methods: {
     handleMouseEnter (event) {
+      if (this.$device.isMobileOrTablet) {
+        return
+      }
+
       this.timeoutID = setTimeout(() => {
         this.toggleImage = false
       }, 2500)
@@ -81,7 +108,7 @@ export default {
   position: relative;
 
   .higlight-content {
-    max-width: 40%;
+    max-width: 50%;
     z-index: 3;
     position: absolute;
     margin: 0 4vw;
