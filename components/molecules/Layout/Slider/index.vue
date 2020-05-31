@@ -229,12 +229,6 @@ export default {
     },
 
     handleMouseLeave (id, idx, movieID) {
-      // if selected return
-      const selected = document.getElementsByClassName('selected')
-      if (selected.length > 0) {
-        return
-      }
-
       // if non-interactive return
       if (this.interactiveMode === false) {
         return
