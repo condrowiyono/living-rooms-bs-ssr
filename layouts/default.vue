@@ -53,6 +53,24 @@
               />
             </b-input-group>
           </div>
+          <b-nav-item-dropdown right>
+            <template v-slot:button-content>
+              <b-icon-gear-fill />
+            </template>
+            <b-dropdown-form style="width: 240px;">
+              <b-form-checkbox
+                v-model="interactiveMode"
+                switch
+                @change="handleInteractiveModeChange"
+              >
+                <span class="mr-2"> Mode Interaktif </span>
+                <b-icon-info-circle-fill id="interactive-mode-icon" />
+                <b-tooltip target="interactive-mode-icon" triggers="hover">
+                    Jika Mode Interaktif aktif, video playback akan otomatis diputar. Nonaktif maka tidak ada video playback yang akan diputar
+                  </b-tooltip>
+              </b-form-checkbox>
+            </b-dropdown-form>
+          </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -72,7 +90,13 @@ import {
   BInputGroup,
   BInputGroupText,
   BIconSearch,
-  BIconX
+  BIconX,
+  BIconInfoCircleFill,
+  BNavItemDropdown,
+  BIconGearFill,
+  BFormCheckbox,
+  BDropdownForm,
+  BTooltip
 } from 'bootstrap-vue'
 
 export default {
@@ -87,13 +111,20 @@ export default {
     BInputGroup,
     BInputGroupText,
     BIconSearch,
-    BIconX
+    BIconX,
+    BIconInfoCircleFill,
+    BNavItemDropdown,
+    BIconGearFill,
+    BFormCheckbox,
+    BDropdownForm,
+    BTooltip
   },
 
   data () {
     return {
       transparentNavbar: true,
-      search: ''
+      search: '',
+      interactiveMode: false
     }
   },
 
@@ -117,6 +148,10 @@ export default {
     handleClearSearch () {
       this.search = ''
       this.$refs.search.$el.focus()
+    },
+
+    handleInteractiveModeChange (value) {
+      this.$store.commit('common/SET_INTERACTIVE_MODE', value)
     }
   }
 }

@@ -146,6 +146,10 @@ export default {
 
     slideContainer () {
       return chunk(this.content, 6)
+    },
+
+    interactiveMode () {
+      return this.$store.state.common.interactiveMode
     }
   },
 
@@ -208,8 +212,14 @@ export default {
       if (selected.length > 0) {
         return
       }
+
+      // if non-interactive return
+      if (this.interactiveMode === false) {
+        return
+      }
+
       // eslint-disable-next-line
-      console.warn(jwplayer(`movie-${id}-${idx}-${movieID}`).remove())
+      jwplayer(`movie-${id}-${idx}-${movieID}`).remove()
 
       jwplayerSetup({
         id: `movie-${id}-${idx}-${movieID}`,
@@ -219,8 +229,19 @@ export default {
     },
 
     handleMouseLeave (id, idx, movieID) {
+      // if selected return
+      const selected = document.getElementsByClassName('selected')
+      if (selected.length > 0) {
+        return
+      }
+
+      // if non-interactive return
+      if (this.interactiveMode === false) {
+        return
+      }
+
       // eslint-disable-next-line
-      console.warn(jwplayer(`movie-${id}-${idx}-${movieID}`).remove())
+      jwplayer(`movie-${id}-${idx}-${movieID}`).remove()
     }
   }
 }

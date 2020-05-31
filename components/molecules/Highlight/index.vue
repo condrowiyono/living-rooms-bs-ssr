@@ -1,20 +1,19 @@
 <template>
   <div
     class="higlight"
-    @mouseenter.stop.self="handleMouseEnter"
+    @mouseenter.stop="handleMouseEnter"
     @mouseleave="handleMouseLeave"
   >
-    <transition name="fade">
-      <div
-        id="myElement"
-        style="position:relative; overflow:hidden; padding-bottom:56.25%"
-      />
-      <!-- <b-img
-        v-else
-        fluid
-        src="https://image.tmdb.org/t/p/original/8K001T1pcEDQSOYwEI1wKps1qcA.jpg"
-      /> -->
-    </transition>
+    <div
+      v-show="interactiveMode"
+      id="myElement"
+      style="position:relative; overflow:hidden; padding-bottom:56.25%"
+    />
+    <b-img-lazy
+      v-show="!interactiveMode"
+      fluid
+      src="https://image.tmdb.org/t/p/original/8K001T1pcEDQSOYwEI1wKps1qcA.jpg"
+    />
     <div class="higlight-content">
       <h2 :style="$fontResizer(isMobileOrTablet, '1.4rem')">
         Parasite
@@ -49,7 +48,7 @@
 </template>
 
 <script>
-import { BButton, BIconPlayFill, BIconInfoCircle } from 'bootstrap-vue'
+import { BButton, BIconPlayFill, BIconInfoCircle, BImgLazy } from 'bootstrap-vue'
 
 import jwplayerSetup from '~/lib/jwplayerSetup'
 
@@ -57,7 +56,8 @@ export default {
   components: {
     BButton,
     BIconPlayFill,
-    BIconInfoCircle
+    BIconInfoCircle,
+    BImgLazy
   },
 
   props: {
@@ -74,16 +74,23 @@ export default {
     }
   },
 
-  created () {
-    jwplayerSetup({
-      id: 'myElement',
-      file: 'https://content.jwplatform.com/videos/CGcMaaAa-UpH3H8tS.mp4',
-      image: 'https://image.tmdb.org/t/p/original/toqWRc1frtaqb2iZyRs5zCZh2aD.jpg'
-    })
-  },
-
   beforeDestroy () {
     clearTimeout(this.timeoutID)
+  },
+
+  computed: {
+    interactiveMode () {
+      return this.$store.state.common.interactiveMode
+    }
+  },
+
+  watch: {
+    interactiveMode: {
+      handler (val) {
+        // eslint-disable-next-line
+        jwplayer('myElement').remove(true)
+      }
+    }
   },
 
   methods: {
@@ -91,15 +98,33 @@ export default {
       if (this.$device.isMobileOrTablet) {
         return
       }
+
+      if (this.interactiveMode === false) {
+        return
+      }
+
       // eslint-disable-next-line
-      console.warn(jwplayer('myElement').stop(true))
+      jwplayer('myElement').remove(true)
+
       // eslint-disable-next-line
-      console.warn(jwplayer('myElement').play(true))
+      jwplayerSetup({
+        id: 'myElement',
+        file: 'https://content.jwplatform.com/videos/CGcMaaAa-UpH3H8tS.mp4',
+        image: 'https://image.tmdb.org/t/p/original/toqWRc1frtaqb2iZyRs5zCZh2aD.jpg'
+      })
     },
 
     handleMouseLeave (event) {
+      if (this.$device.isMobileOrTablet) {
+        return
+      }
+
+      if (this.interactiveMode === false) {
+        return
+      }
+
       // eslint-disable-next-line
-      console.warn(jwplayer('myElement').stop(true))
+      jwplayer('myElement').stop(true)
     }
   }
 }
