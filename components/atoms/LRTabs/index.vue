@@ -38,13 +38,15 @@ export default {
         border: none;
         background: none;
         color: white;
-        border-bottom: .2vw transparent solid;
+        border-bottom: .25vw transparent solid;
+        padding-right: 1.5vw;
+        padding-left: 1.5vw;
+        font-size: 1vw;
 
         &.active {
           background: none;
           color: white;
-          border-bottom: .2vw red solid;
-          font-weight: 600;
+          border-bottom: .25vw red solid;
         }
       }
     }

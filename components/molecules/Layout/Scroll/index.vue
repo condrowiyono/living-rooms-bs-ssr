@@ -5,7 +5,6 @@
         {{ title }}
       </a>
     </h6>
-    <skeleton v-if="loading" />
     <div
       v-if="!loading"
       class="scroll"
@@ -18,20 +17,29 @@
       >
         <div
           class="content"
-          :style="`background-image: url(${movie.posters[0].path});`"
           @click="handleTitleClick(movie.ID)"
-        />
+        >
+          <b-img-lazy
+            fluid
+            blank
+            blank-color="#ddd"
+            :src="movie.banners[0].path"
+          />
+          <div class="card-movie-title">
+            {{ movie.title }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Skeleton from '~/components/atoms/Skeleton'
+import { BImgLazy } from 'bootstrap-vue'
 
 export default {
   components: {
-    Skeleton
+    BImgLazy
   },
 
   props: {
@@ -67,37 +75,19 @@ export default {
 </script>
 
 <style lang="scss">
-.lr-scroll {
-  padding: 0 0 0 4vw;
-
-  .scroll {
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
-
-    .item {
-      display: inline-block;
-      width: calc(100% / 6 - 1vw);
-
-      .content {
-        padding: 80% 0;
-        width: 98%;
-        background-size: cover;
-        background-position: center;
-      }
-    }
-  }
+.lr-scroll .scroll .item {
+  width: calc(100% / 4 - 1vw);
 }
 
 @media screen and (max-width: 575.98px) and (min-width: 0px) {
   .lr-scroll .scroll .item {
-    width: calc(100% / 3 - 1vw);
+    width: calc(100% / 2 - 1vw);
   }
 }
 
 @media screen and (max-width: 767.98px) and (min-width: 575.98px) {
   .lr-scroll .scroll .item {
-    width: calc(100% / 5 - 1vw);
+    width: calc(100% / 3 - 1vw);
   }
 }
 </style>

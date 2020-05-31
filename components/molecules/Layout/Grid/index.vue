@@ -1,70 +1,88 @@
 <template>
   <div class="lr-grid">
-    <section class="lr-slider is-horizontal">
+    <section class="lr-slider">
       <h2 class="title mb-4">
         <a href="#">
           {{ title }}
         </a>
       </h2>
-      <div
-        v-for="(slide, idx) in slideContainer"
-        :key="idx"
-      >
-        <div class="slider">
-          <ul class="lr-slider-slide is-horizontal">
-            <li
-              v-for="movie in slide"
-              :key="movie.ID"
-              :class="`${id}${movie.ID}`"
-            >
-              <div
-                @click="fetchMovie(movie.ID, idx)"
+      <div v-if="!loading">
+        <div
+          v-for="(slide, idx) in slideContainer"
+          :key="idx"
+        >
+          <div class="slider">
+            <ul class="lr-slider-slide">
+              <li
+                v-for="movie in slide"
+                :key="movie.ID"
+                :class="`${id}${movie.ID}`"
               >
                 <div
-                  class="img"
-                  :style="`background-image: url(${movie.banners[0].path});`"
+                  @click="fetchMovie(movie.ID, idx)"
+                  @mouseenter.stop="handleMouseEnter(id, idx, movie.ID)"
+                  @mouseleave="handleMouseLeave(id, idx, movie.ID)"
                 >
-                  <div
-                    v-if="isSelected(movie.ID)"
-                    class="selected"
-                  />
-                  <img :src="movie.banners[0].path">
-                </div>
-                <div class="card-info">
-                  <h3>{{ movie.title }}</h3>
-                  <div class="info">
-                    <div class="year">
-                      {{ dayjs(movie.release_date).format('YYYY') }}
-                    </div>
-                    <div class="age">
-                      {{ movie.rated }}
-                    </div>
-                    <div class="dur">
-                      {{ movie.runtime }}
+                  <div class="img">
+                    <div
+                      v-if="isSelected(movie.ID)"
+                      class="selected"
+                    />
+                    <div>
+                      <b-img-lazy
+                        blank
+                        blank-color="#ddd"
+                        :src="movie.banners[0].path"
+                      />
+                      <div class="card-movie-title">
+                        {{ movie.title }}
+                      </div>
                     </div>
                   </div>
-                  <div class="tags">
-                    <span
-                      v-for="genre in movie.genres"
-                      :key="genre.ID"
-                    >
-                      {{ genre.name }}
-                    </span>
+                  <div class="card-info">
+                    <div
+                      :id="`movie-${id}-${idx}-${movie.ID}`"
+                      class="theatre"
+                    />
+                    <div class="caption-bg">
+                      <div class="caption-content">
+                        <h3>{{ movie.title }}</h3>
+                        <div class="info">
+                          <div class="year">
+                            {{ dayjs(movie.release_date).format('YYYY') }}
+                          </div>
+                          <div class="age">
+                            {{ movie.rated }}
+                          </div>
+                          <div class="dur">
+                            {{ movie.runtime }}
+                          </div>
+                        </div>
+                        <div class="tags">
+                          <span
+                            v-for="genre in movie.genres"
+                            :key="genre.ID"
+                          >
+                            {{ genre.name }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </li>
-          </ul>
+              </li>
+            </ul>
+          </div>
+          <showcase
+            :id="`${id}-${idx}`"
+            :data="slideDetail"
+            :loading="isFetching"
+            @close="closeShowcase"
+            @title-click="handleTitleClick"
+            @play-click="handlePlayClick"
+            @video-click="handleVideoClick"
+          />
         </div>
-        <showcase
-          :id="`${id}-${idx}`"
-          :data="slideDetail"
-          :loading="isFetching"
-          @close="closeShowcase"
-          @title-click="handleTitleClick"
-          @play-click="handlePlayClick"
-          @video-click="handleVideoClick"
-        />
       </div>
     </section>
   </div>
@@ -76,13 +94,17 @@ import $ from 'jquery'
 import { chunk } from 'lodash'
 import dayjs from 'dayjs'
 
+import { BImgLazy } from 'bootstrap-vue'
+
 import Showcase from '~/components/molecules/Showcase'
 import hover from '~/components/molecules/Layout/utils'
 import isObjectEmpty from '~/lib/Object'
+import jwplayerSetup from '~/lib/jwplayerSetup'
 
 export default {
   components: {
-    Showcase
+    Showcase,
+    BImgLazy
   },
 
   props: {
@@ -99,6 +121,10 @@ export default {
     content: {
       type: Array,
       default: () => []
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -120,8 +146,12 @@ export default {
     }
   },
 
+  updated () {
+    hover('lr-slider-slide')
+  },
+
   mounted () {
-    hover('lr-slider-slide', 'is-horizontal')
+    hover('lr-slider-slide')
   },
 
   methods: {
@@ -167,6 +197,27 @@ export default {
         name: 'video-id',
         params: { id: videoID }
       })
+    },
+
+    handleMouseEnter (id, idx, movieID) {
+      // if selected return
+      const selected = document.getElementsByClassName('selected')
+      if (selected.length > 0) {
+        return
+      }
+      // eslint-disable-next-line
+      console.warn(jwplayer(`movie-${id}-${idx}-${movieID}`).remove())
+
+      jwplayerSetup({
+        id: `movie-${id}-${idx}-${movieID}`,
+        file: 'https://content.jwplatform.com/videos/CGcMaaAa-UpH3H8tS.mp4',
+        image: 'https://image.tmdb.org/t/p/original/toqWRc1frtaqb2iZyRs5zCZh2aD.jpg'
+      })
+    },
+
+    handleMouseLeave (id, idx, movieID) {
+      // eslint-disable-next-line
+      console.warn(jwplayer(`movie-${id}-${idx}-${movieID}`).remove())
     }
   }
 }
@@ -174,49 +225,17 @@ export default {
 
 <style lang="scss">
 .lr-grid {
-  section.lr-slider.is-horizontal {
+  section.lr-slider {
     .title {
       position: relative;
     }
 
-    ul li .img {
-      padding-top: 56%;
-    }
-
     ul.lr-slider-slide {
       z-index: 1;
-
-      li .card-info {
-        bottom: 0;
-        padding: 10% 5%;
-        transform: none;
-
-        h3 {
-          font-size: .7vw;
-        }
-
-        .info {
-          .year {
-            font-size: .5vw;
-          }
-
-          .age {
-            font-size: .5vw;
-          }
-
-          .dur {
-            font-size: .5vw;
-          }
-        }
-
-        .tags span{
-            font-size: .5vw;
-        }
-      }
     }
 
     .showcase {
-      top: -4.8vw;
+      top: -5vw;
     }
   }
 }

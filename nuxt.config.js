@@ -14,7 +14,10 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { href: 'https://fonts.googleapis.com/css?family=Muli:400,600&display=swap', rel: 'stylesheet' }
+      { href: 'https://fonts.googleapis.com/css?family=Muli:400,600,800&display=swap', rel: 'stylesheet' }
+    ],
+    script: [
+      { src: 'https://cdn.jwplayer.com/libraries/136FlbbE.js' }
     ]
   },
   /*

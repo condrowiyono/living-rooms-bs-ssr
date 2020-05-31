@@ -91,11 +91,8 @@
               >
                 <div
                   class="thumbnail"
-                  :style="{
-                    backgroundImage: `url('${getThumbnails(video.player_url)}')`
-                  }"
                 >
-                  <b-icon-camera-video-fill font-scale="2" />
+                  <b-img fluid :src="getThumbnails(video.player_url)" />
                   <div class="hover">
                     <b-icon-play-fill
                       font-scale="4"
@@ -204,7 +201,7 @@
 <script>
 import dayjs from 'dayjs'
 
-import { BIconX, BIconPlayFill, BTab, BButton, BImg, BIconCameraVideoFill } from 'bootstrap-vue'
+import { BIconX, BIconPlayFill, BTab, BButton, BImg } from 'bootstrap-vue'
 import LrBgVideo from '~/components/atoms/LrBgVideo'
 
 import LRTabs from '~/components/atoms/LRTabs'
@@ -217,8 +214,7 @@ export default {
     BImg,
     BIconX,
     LrBgVideo,
-    BIconPlayFill,
-    BIconCameraVideoFill
+    BIconPlayFill
   },
 
   props: {

@@ -18,7 +18,7 @@
                 <b-icon-play-fill /> Putar
               </b-button>
               <b-button class="btn-transparent">
-                <b-icon-info /> Info Lengkap
+                <b-icon-info-circle /> Info Lengkap
               </b-button>
             </div>
           </div>
@@ -29,14 +29,14 @@
 </template>
 
 <script>
-import { BButton, BIconPlayFill, BIconInfo } from 'bootstrap-vue'
+import { BButton, BIconPlayFill, BIconInfoCircle } from 'bootstrap-vue'
 import LrBgVideo from '~/components/atoms/LrBgVideo'
 
 export default {
   components: {
     BButton,
     BIconPlayFill,
-    BIconInfo,
+    BIconInfoCircle,
     LrBgVideo
   }
 }

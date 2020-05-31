@@ -11,7 +11,7 @@
     <layout
       v-if="$device.isMobileOrTablet"
       id="item-top"
-      type="grid-poster-alt"
+      type="scroll"
       :title="`Movies ${selected !== 'Genres' ? `- ${selected}` : '' }`"
       :content="movies"
       :loading="loading"
@@ -19,7 +19,7 @@
     <layout
       v-else
       id="item-top"
-      type="grid-poster"
+      type="grid"
       :title="`Movies ${selected !== 'Genres' ? `- ${selected}` : '' }`"
       :content="movies"
       :loading="loading"

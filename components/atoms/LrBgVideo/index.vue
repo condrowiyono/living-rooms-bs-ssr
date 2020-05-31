@@ -2,17 +2,22 @@
   <div class="lr-video-player h-100">
     <vue-plyr
       :ref="refData"
-      :options="options"
       no-ssr
       class="h-100"
     >
-      <div class="plyr__video-embed">
-        <iframe
-          title="plyr"
-          :src="playerSrc"
-          allowfullscreen
-          allow="autoplay"
-        />
+      <div
+        class="plyr__video-embed"
+      >
+        <video
+          id="player"
+          playsinline
+          controls
+        >
+          <source
+            src="https://content.jwplatform.com/videos/CGcMaaAa-UpH3H8tS.mp4"
+            type="video/mp4"
+          >
+        </video>
       </div>
     </vue-plyr>
     <div class="floating-control">
@@ -62,8 +67,6 @@ export default {
   data () {
     return {
       options: {
-        autoplay: this.autoplay,
-        controls: []
       }
     }
   },

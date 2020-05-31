@@ -1,22 +1,19 @@
 <template>
   <div
     class="higlight"
-    @mouseenter.once="handleMouseEnter"
+    @mouseenter.stop.self="handleMouseEnter"
     @mouseleave="handleMouseLeave"
   >
     <transition name="fade">
-      <lr-bg-video
-        v-if="!toggleImage"
-        ref="lr-bg-video-highlight"
-        ref-data="lr-highlight-video"
-        autoplay
-        player-src="https://www.youtube-nocookie.com/embed/5xH0HfJHsaY?controls=0"
+      <div
+        id="myElement"
+        style="position:relative; overflow:hidden; padding-bottom:56.25%"
       />
-      <b-img
+      <!-- <b-img
         v-else
         fluid
         src="https://image.tmdb.org/t/p/original/8K001T1pcEDQSOYwEI1wKps1qcA.jpg"
-      />
+      /> -->
     </transition>
     <div class="higlight-content">
       <h2 :style="$fontResizer(isMobileOrTablet, '1.4rem')">
@@ -41,7 +38,7 @@
           class="btn-transparent"
           :style="$fontResizer(isMobileOrTablet)"
         >
-          <b-icon-info />
+          <b-icon-info-circle />
           <span v-if="!isMobileOrTablet">
             Info Lengkap
           </span>
@@ -52,16 +49,16 @@
 </template>
 
 <script>
-import { BButton, BIconPlayFill, BIconInfo, BImg } from 'bootstrap-vue'
-import LrBgVideo from '~/components/atoms/LrBgVideo'
+import { BButton, BIconPlayFill, BIconInfoCircle } from 'bootstrap-vue'
+// import LrBgVideo from '~/components/atoms/LrBgVideo'
+
+import jwplayerSetup from '~/lib/jwplayerSetup'
 
 export default {
   components: {
     BButton,
     BIconPlayFill,
-    BIconInfo,
-    BImg,
-    LrBgVideo
+    BIconInfoCircle
   },
 
   props: {
@@ -78,6 +75,14 @@ export default {
     }
   },
 
+  created () {
+    jwplayerSetup({
+      id: 'myElement',
+      file: 'https://content.jwplatform.com/videos/CGcMaaAa-UpH3H8tS.mp4',
+      image: 'https://image.tmdb.org/t/p/original/toqWRc1frtaqb2iZyRs5zCZh2aD.jpg'
+    })
+  },
+
   beforeDestroy () {
     clearTimeout(this.timeoutID)
   },
@@ -87,14 +92,15 @@ export default {
       if (this.$device.isMobileOrTablet) {
         return
       }
-
-      this.timeoutID = setTimeout(() => {
-        this.toggleImage = false
-      }, 2500)
+      // eslint-disable-next-line
+      console.warn(jwplayer('myElement').stop(true))
+      // eslint-disable-next-line
+      console.warn(jwplayer('myElement').play(true))
     },
 
     handleMouseLeave (event) {
-      clearTimeout(this.timeoutID)
+      // eslint-disable-next-line
+      console.warn(jwplayer('myElement').stop(true))
     }
   }
 }

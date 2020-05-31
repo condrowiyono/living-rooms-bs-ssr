@@ -28,7 +28,7 @@ body {
   color: $white-darker
 }
 
-section.lr-slider{
+.lr-slider{
   display: block;
   position: relative;
 
@@ -67,13 +67,25 @@ section.lr-slider{
       padding: 1vw 2px;
       overflow: hidden;
       cursor: pointer;
+      
+      .card-movie-title {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translate(-50%, -10%);
+        font-size: 1vw;
+        color: #fff;
+        font-weight: 800;
+        text-shadow: 0 1px 1px rgba($black, 0.6);
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+      }
 
       .img {
         display: block;
         position: relative;
         width: 100%;
         height: 0px;
-        padding-top: 150%;
+        padding-top: 56%;
         background-size: cover;
         transform-origin: top right;
 
@@ -98,7 +110,6 @@ section.lr-slider{
           left: 0px;
           width: 100%;
           height: 100%;
-          opacity: 0;
         }
 
         .selected {
@@ -128,79 +139,93 @@ section.lr-slider{
       }
 
       .card-info {
-        transform: scaleY(2.5);
         display: block;
         position: absolute;
-        padding: 5%;
-        bottom: 15%;
+        top: 10%;
         left: 0;
         z-index: 1;
         width: 100%;
-        height: auto;
+        height: 90%;
         text-shadow: 0 1px 1px rgba($black, 0.6);
         opacity: 0;
-
-        h3 {
-          margin-bottom: .2vw;
-          display: block;
+        
+        .caption-bg {
           width: 100%;
-          font-size: .4vw;
-          font-weight: 600;
-        }
-
-        .info {
-          margin-bottom: .2vw;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
           display: block;
-          width: 100%;
-          font-size: 0;
+          background: linear-gradient(to bottom, rgba($black,0) 0%,rgba($black,1) 100%);
+          
+          .caption-content {
+            position: absolute;
+            bottom: 10%;
 
-          .year {
-            display: inline-block;
-            width: auto;
-            font-size: .3vw;
-            font-weight: 600;
-            margin-right: .2vw;
-            color: $match;
-          }
-
-          .age {
-            font-family: $font;
-            display: inline-block;
-            position: relative;
-            width: auto;
-            font-size: .3vw;
-            padding: 0 0.4em;
-            margin-right: .2vw;
-          }
-
-          .dur {
-            display: inline-block;
-            width: auto;
-            font-size: .3vw;
-          }
-        }
-
-        .tags {
-          display: block;
-          width: 100%;
-
-          span {
-            display: inline-block;
-            width: auto;
-            font-size: .3vw;
-            margin: 0 .1vw 0 0;
-
-            &:after {
-              content:"●";
-              display: inline-block;
-              margin: 0 0 0 .1vw;
-              font-size: .8 xvw;
-              text-shadow: 0 1px 1px rgba(0, 0, 0, 0);
-              color: rgba($white, 0.4);
+            h3 {
+              margin-bottom: .2vw;
+              display: block;
+              width: 100%;
+              font-size: .7vw;
+              padding: 0 5%;
+              font-weight: 600;
             }
 
-            &:last-child:after {
-              display: none;
+            .info {
+              margin-bottom: .2vw;
+              display: block;
+              width: 100%;
+              font-size: 0;
+              padding: 0 5%;
+              font-size: .5vw;
+
+              .year {
+                display: inline-block;
+                width: auto;
+                font-weight: 600;
+                margin-right: .2vw;
+                color: $match;
+              }
+
+              .age {
+                font-family: $font;
+                display: inline-block;
+                position: relative;
+                width: auto;
+                padding: 0 0.4em;
+                margin-right: .2vw;
+              }
+
+              .dur {
+                display: inline-block;
+                width: auto;
+              }
+            }
+
+            .tags {
+              display: block;
+              width: 100%;
+              padding: 0 5%;
+
+              span {
+                display: inline-block;
+                width: auto;
+                font-size: .5vw;
+                margin: 0 .1vw 0 0;
+
+                &:after {
+                  content:"●";
+                  display: inline-block;
+                  margin: 0 0 0 .1vw;
+                  font-size: .8 xvw;
+                  text-shadow: 0 1px 1px rgba(0, 0, 0, 0);
+                  color: rgba($white, 0.4);
+                }
+
+                &:last-child:after {
+                  display: none;
+                }
+              }
             }
           }
         }
@@ -218,6 +243,30 @@ section.lr-slider{
   }
   li, li * {
     transition: all .5s ease .2s 
+  }
+}
+
+.lr-scroll {
+  padding: 0 0 0 4vw;
+
+  .scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+
+    .item {
+      display: inline-block;
+
+      .content {
+        width: 98%;
+
+        .card-movie-title {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
   }
 }
 
