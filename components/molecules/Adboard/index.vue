@@ -3,11 +3,7 @@
     <div class="adboard-bg-gradient">
       <div class="adboard-container">
         <div class="adboard-container__left">
-          <lr-bg-video
-            ref-data="lr-adboard-video"
-            class="adboard-video"
-            player-src="https://www.youtube-nocookie.com/embed/eXMjTXL2Vks?controls=0"
-          />
+          
         </div>
         <div class="adboard-container__right">
           <div>
@@ -30,14 +26,12 @@
 
 <script>
 import { BButton, BIconPlayFill, BIconInfoCircle } from 'bootstrap-vue'
-import LrBgVideo from '~/components/atoms/LrBgVideo'
 
 export default {
   components: {
     BButton,
     BIconPlayFill,
-    BIconInfoCircle,
-    LrBgVideo
+    BIconInfoCircle
   }
 }
 </script>

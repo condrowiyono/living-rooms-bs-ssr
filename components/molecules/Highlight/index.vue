@@ -50,7 +50,6 @@
 
 <script>
 import { BButton, BIconPlayFill, BIconInfoCircle } from 'bootstrap-vue'
-// import LrBgVideo from '~/components/atoms/LrBgVideo'
 
 import jwplayerSetup from '~/lib/jwplayerSetup'
 

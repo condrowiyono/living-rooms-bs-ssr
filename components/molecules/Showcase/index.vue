@@ -9,15 +9,8 @@
         class="bg-gradient"
         :style="{backgroundColor: loading ? 'black' : ''}"
       >
-        <div v-if="data && (data.videos || data.banners)">
-          <lr-bg-video
-            v-if="isVideo && data.videos.length"
-            ref-data="lr-highlight-video"
-            class="h-100"
-            :player-src="data.videos[0].player_url"
-          />
+        <div v-if="data && data.banners">
           <b-img
-            v-else-if="data.banners.length"
             :src="data.banners[0].path"
           />
         </div>
@@ -202,7 +195,6 @@
 import dayjs from 'dayjs'
 
 import { BIconX, BIconPlayFill, BTab, BButton, BImg } from 'bootstrap-vue'
-import LrBgVideo from '~/components/atoms/LrBgVideo'
 
 import LRTabs from '~/components/atoms/LRTabs'
 
@@ -213,7 +205,6 @@ export default {
     BButton,
     BImg,
     BIconX,
-    LrBgVideo,
     BIconPlayFill
   },
 
