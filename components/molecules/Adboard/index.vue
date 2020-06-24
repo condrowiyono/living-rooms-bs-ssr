@@ -2,9 +2,7 @@
   <div class="adboard" style="background-image:url('https://image.tmdb.org/t/p/original/o3Htmlg6BfNs8Ew7yjsRzVnYSEs.jpg');">
     <div class="adboard-bg-gradient">
       <div class="adboard-container">
-        <div class="adboard-container__left">
-          
-        </div>
+        <div class="adboard-container__left" />
         <div class="adboard-container__right">
           <div>
             <h2> Crash Landing On You </h2>

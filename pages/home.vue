@@ -1,8 +1,5 @@
 <template>
   <div class="lr-home desktop">
-    <highlight
-      :is-mobile-or-tablet="$device.isMobileOrTablet"
-    />
     <div
       v-if="$device.isDesktop"
       class="lr-container"
@@ -33,12 +30,11 @@
 </template>
 
 <script>
-import Highlight from '~/components/molecules/Highlight'
+// import Highlight from '~/components/molecules/Highlight'
 import Layout from '~/components/molecules/Layout'
 
 export default {
   components: {
-    Highlight,
     Layout
   },
 

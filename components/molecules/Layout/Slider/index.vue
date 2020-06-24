@@ -1,96 +1,94 @@
 <template>
-  <div>
-    <section class="lr-slider">
-      <h2 class="title">
-        <a href="#">
-          {{ title }}
-        </a>
-      </h2>
-      <div class="slider">
-        <VueSlickCarousel
-          :dots="true"
-          :touch-move="false"
-          :swipe="false"
-          :swipe-to-slide="false"
+  <section class="lr-slider">
+    <h5 class="title">
+      <a href="#">
+        {{ title }}
+      </a>
+    </h5>
+    <div class="slider">
+      <VueSlickCarousel
+        :dots="true"
+        :touch-move="false"
+        :swipe="false"
+        :swipe-to-slide="false"
+      >
+        <ul
+          v-for="(slide, idx) in slideContainer"
+          :key="idx"
+          class="lr-slider-slide"
         >
-          <ul
-            v-for="(slide, idx) in slideContainer"
-            :key="idx"
-            class="lr-slider-slide"
+          <li
+            v-for="movie in slide"
+            :key="movie.ID"
+            :class="`${id}${movie.ID}`"
           >
-            <li
-              v-for="movie in slide"
-              :key="movie.ID"
-              :class="`${id}${movie.ID}`"
+            <div
+              @click="fetchMovie(movie.ID)"
+              @mouseenter.stop="handleMouseEnter(id, idx, movie.ID)"
+              @mouseleave="handleMouseLeave(id, idx, movie.ID)"
             >
-              <div
-                @click="fetchMovie(movie.ID)"
-                @mouseenter.stop="handleMouseEnter(id, idx, movie.ID)"
-                @mouseleave="handleMouseLeave(id, idx, movie.ID)"
-              >
-                <div class="img">
-                  <div
-                    v-if="isSelected(movie.ID)"
-                    class="selected"
+              <div class="img">
+                <div
+                  v-if="isSelected(movie.ID)"
+                  class="selected"
+                />
+                <div>
+                  <b-img-lazy
+                    blank
+                    blank-color="#ddd"
+                    :src="movie.banners[0].path"
+                    :alt="movie.title"
                   />
-                  <div>
-                    <b-img-lazy
-                      blank
-                      blank-color="#ddd"
-                      :src="movie.banners[0].path"
-                      :alt="movie.title"
-                    />
-                    <div class="card-movie-title">
-                      {{ movie.title }}
-                    </div>
+                  <div class="card-movie-title">
+                    {{ movie.title }}
                   </div>
                 </div>
-                <div class="card-info">
-                  <div
-                    :id="`movie-${id}-${idx}-${movie.ID}`"
-                    class="theatre"
-                  />
-                  <div class="caption-bg">
-                    <div class="caption-content">
-                      <h3>{{ movie.title }}</h3>
-                      <div class="info">
-                        <div class="year">
-                          {{ dayjs(movie.release_date).format('YYYY') }}
-                        </div>
-                        <div class="age">
-                          {{ movie.rated }}
-                        </div>
-                        <div class="dur">
-                          {{ movie.runtime }} m
-                        </div>
+              </div>
+              <div class="card-info">
+                <div
+                  :id="`movie-${id}-${idx}-${movie.ID}`"
+                  class="theatre"
+                />
+                <div class="caption-bg">
+                  <div class="caption-content">
+                    <h3>{{ movie.title }}</h3>
+                    <div class="info">
+                      <div class="year">
+                        {{ dayjs(movie.release_date).format('YYYY') }}
                       </div>
-                      <div class="tags">
-                        <span
-                          v-for="genre in movie.genres"
-                          :key="genre.id"
-                        >
-                          {{ genre.name }}
-                        </span>
+                      <div class="age">
+                        {{ movie.rated }}
                       </div>
+                      <div class="dur">
+                        {{ movie.runtime }} m
+                      </div>
+                    </div>
+                    <div class="tags">
+                      <span
+                        v-for="genre in movie.genres"
+                        :key="genre.id"
+                      >
+                        {{ genre.name }}
+                      </span>
                     </div>
                   </div>
                 </div>
               </div>
-            </li>
-          </ul>
-        </VueSlickCarousel>
-      </div>
-      <showcase
-        :id="id"
-        :data="slideDetail"
-        :loading="isFetching"
-        @close="closeShowcase"
-        @title-click="handleTitleClick"
-        @play-click="handlePlayClick"
-        @video-click="handleVideoClick"
-      />
-    </section>
-  </div>
+            </div>
+          </li>
+        </ul>
+      </VueSlickCarousel>
+    </div>
+    <showcase
+      :id="id"
+      :data="slideDetail"
+      :loading="isFetching"
+      @close="closeShowcase"
+      @title-click="handleTitleClick"
+      @play-click="handlePlayClick"
+      @video-click="handleVideoClick"
+    />
+  </section>
 </template>
 
 <script>
@@ -242,8 +240,42 @@ export default {
 </script>
 
 <style lang="scss">
-section.lr-slider .slider ul li {
-  width: calc(100% / 6);
+section.lr-slider {
+  .slider ul li {
+    width: calc(100% / 6);
+  }
+
+  .slick-list {
+    overflow: unset;
+  }
+
+  .slick-arrow  {
+    background: rgba(20,20,20,.5);
+    z-index: 100;
+    height: 46%;
+  }
+
+  .slick-prev {
+    opacity: 0;
+    left: -4rem;
+    width: 4rem;
+
+    &:hover {
+      opacity: 1;
+      transition: opacity 0.3s;
+    }
+  }
+
+  .slick-next {
+    opacity: 0;
+    right: -4rem;
+    width: 4rem;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
 }
 
 .card-info .jwplayer {

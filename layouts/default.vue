@@ -66,8 +66,8 @@
                 <span class="mr-2"> Mode Interaktif </span>
                 <b-icon-info-circle-fill id="interactive-mode-icon" />
                 <b-tooltip target="interactive-mode-icon" triggers="hover">
-                    Jika Mode Interaktif aktif, video playback akan otomatis diputar. Nonaktif maka tidak ada video playback yang akan diputar
-                  </b-tooltip>
+                  Jika Mode Interaktif aktif, video playback akan otomatis diputar. Nonaktif maka tidak ada video playback yang akan diputar
+                </b-tooltip>
               </b-form-checkbox>
             </b-dropdown-form>
           </b-nav-item-dropdown>

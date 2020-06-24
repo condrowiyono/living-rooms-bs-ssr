@@ -6,7 +6,6 @@
 }
 
 .btn, .custom-select {
-  border-radius: 0;
   font-family: $font;
 }
 
@@ -17,12 +16,8 @@
 
 .btn-transparent {
   background-color: rgba(51, 51, 51, 0.4);
-  border-radius: 0.2vw;
   border-style: none;
   transition: transform .2s linear;
-  padding-left: 1vw; 
-  padding-right: 1vw; 
-  font-size: 1.25vw;
 
   &:hover{
     background-color: #fff;
@@ -42,9 +37,14 @@ ul.slick-dots {
   height: 0;
 
   li {
-    margin: 0;
-
+    margin: 0 0.4rem;
     button:before {
+      content: '';
+      background-color: $grey;
+      height: 0.1rem;
+    }
+
+    &.slick-active button:before {
       color: $white
     }
   }

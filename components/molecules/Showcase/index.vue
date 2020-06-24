@@ -4,18 +4,16 @@
     class="showcase"
     :style="`background: none`"
   >
-    <transition v-if="!loading" name="fade">
-      <div
-        class="bg-gradient"
-        :style="{backgroundColor: loading ? 'black' : ''}"
-      >
-        <div v-if="data && data.banners">
-          <b-img
-            :src="data.banners[0].path"
-          />
-        </div>
+    <div
+      class="bg-gradient"
+      :style="{backgroundColor: loading ? 'black' : ''}"
+    >
+      <div v-if="data && data.banners">
+        <b-img
+          :src="data.banners[0].path"
+        />
       </div>
-    </transition>
+    </div>
     <div class="h-100">
       <div
         v-if="!noClose"
@@ -50,7 +48,7 @@
                 class="btn-red"
                 @click="handlePlayClick(data.player.ID)"
               >
-                <b-icon-play-fill /> PUTAR
+                <b-icon-play-fill /> Putar
               </b-button>
             </div>
             <div class="actor">

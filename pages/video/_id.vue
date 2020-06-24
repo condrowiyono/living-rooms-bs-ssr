@@ -27,8 +27,6 @@ import { BIconChevronLeft } from 'bootstrap-vue'
 export default {
   layout: 'player',
 
-  transition: 'bounce',
-
   components: {
     BIconChevronLeft
   },

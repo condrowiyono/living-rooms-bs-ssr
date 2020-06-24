@@ -74,10 +74,6 @@ export default {
     }
   },
 
-  beforeDestroy () {
-    clearTimeout(this.timeoutID)
-  },
-
   computed: {
     interactiveMode () {
       return this.$store.state.common.interactiveMode
@@ -91,6 +87,10 @@ export default {
         jwplayer('myElement').remove(true)
       }
     }
+  },
+
+  beforeDestroy () {
+    clearTimeout(this.timeoutID)
   },
 
   methods: {

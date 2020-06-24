@@ -5,18 +5,16 @@
       class="showcase alt visible"
       :style="`background: none`"
     >
-      <transition v-if="!loading" name="fade">
-        <div
-          class="bg-gradient"
-          :style="{backgroundColor: loading ? 'black' : ''}"
-        >
-          <div v-if="data && (data.videos || data.banners)">
-            <b-img
-              :src="data.banners[0].path"
-            />
-          </div>
+      <div
+        class="bg-gradient"
+        :style="{backgroundColor: loading ? 'black' : ''}"
+      >
+        <div v-if="data && (data.videos || data.banners)">
+          <b-img
+            :src="data.banners[0].path"
+          />
         </div>
-      </transition>
+      </div>
       <div class="container">
         <h6> {{ data.title }} </h6>
         <div class="text-white-darker d-flex mb-2">
@@ -36,7 +34,7 @@
             class="btn-red"
             @click="handlePlayClick(data.player.ID)"
           >
-            PUTAR
+            Puutar
           </b-button>
         </div>
       </div>
