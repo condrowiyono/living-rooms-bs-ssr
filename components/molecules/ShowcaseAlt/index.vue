@@ -34,12 +34,12 @@
             class="btn-red"
             @click="handlePlayClick(data.player.ID)"
           >
-            Puutar
+            Putar
           </b-button>
         </div>
       </div>
     </div>
-    <div class="margined-container text-white-darker">
+    <div class="text-white-darker">
       <p> {{ data.overview }} </p>
       <div class="d-flex showcase-detail">
         <div class="section mr-4">

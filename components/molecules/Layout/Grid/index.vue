@@ -1,88 +1,85 @@
 <template>
   <div class="lr-grid">
-    <section class="lr-slider">
-      <h2 class="title mb-4">
+    <section class="lr-grid d-block position-relative mb-5">
+      <h2 class="title mb-4 mx-5">
         <a href="#">
           {{ title }}
         </a>
       </h2>
-      <div v-if="!loading">
-        <div
-          v-for="(slide, idx) in slideContainer"
-          :key="idx"
-        >
-          <div class="slider">
-            <ul class="lr-slider-slide">
-              <li
-                v-for="movie in slide"
-                :key="movie.ID"
-                :class="`${id}${movie.ID}`"
+      <div
+        v-for="(slide, idx) in slideContainer"
+        :key="idx"
+        class="mb-5"
+      >
+        <div class="slider mx-5">
+          <ul class="lr-slider-slide m-0 p-0 w-100 list-unstyled">
+            <li
+              v-for="movie in slide"
+              :key="movie.ID"
+              :class="`${id}${movie.ID}`"
+              class="cursor-pointer d-inline-block"
+              :style="'width: calc(100% / 6)'"
+            >
+              <div
+                @click="fetchMovie(movie.ID, idx)"
+                @mouseenter.stop="handleMouseEnter(id, idx, movie.ID)"
+                @mouseleave="handleMouseLeave(id, idx, movie.ID)"
               >
-                <div
-                  @click="fetchMovie(movie.ID, idx)"
-                  @mouseenter.stop="handleMouseEnter(id, idx, movie.ID)"
-                  @mouseleave="handleMouseLeave(id, idx, movie.ID)"
-                >
-                  <div class="img">
-                    <div
-                      v-if="isSelected(movie.ID)"
-                      class="selected"
-                    />
-                    <div>
-                      <b-img-lazy
-                        blank
-                        blank-color="#ddd"
-                        :src="movie.banners[0].path"
-                      />
-                      <div class="card-movie-title">
-                        {{ movie.title }}
+                <div class="img mx-1">
+                  <div
+                    v-if="isSelected(movie.ID)"
+                    class="selected position-absolute w-100 h-100 top-0 left-0"
+                  />
+                  <b-img-lazy
+                    blank
+                    blank-color="#111"
+                    :src="movie.banners[0].path"
+                    class="rounded position-absolute w-100 h-100 top-0 left-0"
+                  />
+                </div>
+                <div class="card-info d-block position-absolute w-100 h-100 opacity-0 bottom-0">
+                  <div
+                    :id="`movie-${id}-${idx}-${movie.ID}`"
+                    class="theatre"
+                  />
+                  <div class="position-absolute bottom-0 w-100 h-auto px-2 pb-2">
+                    <div class="font-size-smaller">
+                      {{ movie.title }}
+                    </div>
+                    <div class="font-size-smallest d-flex">
+                      <div class="mr-1 text-success">
+                        {{ dayjs(movie.release_date).format('YYYY') }}
+                      </div>
+                      <div class="mr-1">
+                        {{ movie.rated }}
+                      </div>
+                      <div class="mr-1">
+                        {{ movie.runtime }} m
                       </div>
                     </div>
-                  </div>
-                  <div class="card-info">
-                    <div
-                      :id="`movie-${id}-${idx}-${movie.ID}`"
-                      class="theatre"
-                    />
-                    <div class="caption-bg">
-                      <div class="caption-content">
-                        <h3>{{ movie.title }}</h3>
-                        <div class="info">
-                          <div class="year">
-                            {{ dayjs(movie.release_date).format('YYYY') }}
-                          </div>
-                          <div class="age">
-                            {{ movie.rated }}
-                          </div>
-                          <div class="dur">
-                            {{ movie.runtime }}
-                          </div>
-                        </div>
-                        <div class="tags">
-                          <span
-                            v-for="genre in movie.genres"
-                            :key="genre.ID"
-                          >
-                            {{ genre.name }}
-                          </span>
-                        </div>
-                      </div>
+                    <div class="font-size-smallest tags">
+                      <span
+                        v-for="genre in movie.genres"
+                        :key="genre.id"
+                      >
+                        {{ genre.name }}
+                      </span>
                     </div>
                   </div>
                 </div>
-              </li>
-            </ul>
-          </div>
-          <showcase
-            :id="`${id}-${idx}`"
-            :data="slideDetail"
-            :loading="isFetching"
-            @close="closeShowcase"
-            @title-click="handleTitleClick"
-            @play-click="handlePlayClick"
-            @video-click="handleVideoClick"
-          />
+              </div>
+            </li>
+          </ul>
         </div>
+        <showcase
+          :id="`${id}-${idx}`"
+          :data="slideDetail"
+          :loading="isFetching"
+          @close="closeShowcase"
+          @title-click="handleTitleClick"
+          @play-click="handlePlayClick"
+          @video-click="handleVideoClick"
+        />
       </div>
     </section>
   </div>
@@ -240,18 +237,60 @@ export default {
 
 <style lang="scss">
 .lr-grid {
-  section.lr-slider {
-    .title {
+  ul.lr-slider-slide li {
+    .img {
+      display: block;
       position: relative;
+      padding-top: 56%;
+
+      &:after {
+        content:"";
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        background: linear-gradient(to bottom, transparent 0%, rgba(#000,1) 100%);
+        transition: all .5s ease .2s;
+        border-radius: 0.25rem;
+      }
+
+      .selected {
+        border-style: solid;
+        border-width: 0.4rem;
+        border-radius: 0.5rem;
+        z-index: 100;
+
+        &::after {
+          content: '';
+          width: 0;
+          height: 0;
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          margin-left: -20px;
+          border-style: solid;
+          border-width: 10px 20px 0 20px;
+          margin-top: 3px;
+          border-color: #fff transparent transparent transparent;
+        }
+      }
     }
 
-    ul.lr-slider-slide {
-      z-index: 1;
+    .card-info .tags span {
+      &:after { content:"●"; }
+      &:last-child:after { display: none; }
     }
 
-    .showcase {
-      top: -5vw;
-    }
+    &:hover .img:after { opacity: 1;}
+    &:first-child { transform-origin: 0px center; }
+    &:last-child { transform-origin: 100% center; }
+  }
+  li, li * {
+    transition: all .5s ease .2s;
   }
 }
+
 </style>

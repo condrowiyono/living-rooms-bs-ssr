@@ -29,19 +29,17 @@
 }
 
 ul.slick-dots {
-  display: block;
   position: absolute;
   right: 0;
-  top: 0;
   width: auto;
-  height: 0;
+  top: -1.2rem;
 
   li {
-    margin: 0 0.4rem;
+    margin: 0.1rem;
     button:before {
       content: '';
       background-color: $grey;
-      height: 0.1rem;
+      height: 0.2rem;
     }
 
     &.slick-active button:before {

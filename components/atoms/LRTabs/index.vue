@@ -18,8 +18,8 @@ export default {
   position: relative;
   height: 100%;
 
-  div {
-    width: 100%;
+  .tab-content, .tab-pane {
+    height: 100%;
   }
 
   ul {

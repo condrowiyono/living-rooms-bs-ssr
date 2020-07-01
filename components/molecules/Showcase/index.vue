@@ -4,42 +4,42 @@
     class="showcase"
     :style="`background: none`"
   >
-    <div
-      class="bg-gradient"
-      :style="{backgroundColor: loading ? 'black' : ''}"
-    >
-      <div v-if="data && data.banners">
+    <div class="bg-gradient w-100 h-100 position-absolute">
+      <div
+        v-if="data && data.banners"
+        class="position-absolute h-100 right-0"
+      >
         <b-img
+          v-if="!loading"
           :src="data.banners[0].path"
+          class="h-100 w-auto position-absolute right-0"
         />
       </div>
     </div>
-    <div class="h-100">
+    <div class="h-100 mb-5">
       <div
         v-if="!noClose"
-        class="close-icon"
+        class="close-icon position-absolute right-0 top-20 pr-2 cursor-pointer"
         @click="closeShowcase"
       >
         <b-icon-x />
       </div>
       <l-r-tabs v-if="!loading">
         <b-tab title="Overview" active>
-          <div class="showcase-container">
-            <h2 @click="handleTitleClick(data.ID)">
-              {{ data.title }}
-            </h2>
-            <div class="info mb-2">
-              <div class="year">
+          <div class="w-50 p-5 overflow-auto h-100">
+            <h2> {{ data.title }} </h2>
+            <div class="mb-2 d-flex justify-content-start align-items-center">
+              <div class="mr-2">
                 {{ dayjs(data.release_date).format('YYYY') }}
               </div>
-              <div class="age">
+              <div class="mr-2 border px-2">
                 {{ data.rated }}
               </div>
-              <div class="dur">
+              <div class="mr-2">
                 {{ inHour(data.runtime) }}
               </div>
             </div>
-            <div class="plot mb-4">
+            <div class="plot mb-4 text-white-darker">
               {{ data.overview }}
             </div>
             <div class="mb-4">
@@ -51,20 +51,22 @@
                 <b-icon-play-fill /> Putar
               </b-button>
             </div>
-            <div class="actor">
+            <div class="coma">
               <strong>Pemeran : </strong>
               <span
                 v-for="actor in limitedActors(5)"
                 :key="actor.ID"
+                class="text-white-darker"
               >
                 {{ actor.name }}
               </span>
             </div>
-            <div class="genre">
+            <div class="coma">
               <strong>Genres : </strong>
               <span
                 v-for="genre in data.genres"
                 :key="genre.ID"
+                class="text-white-darker"
               >
                 {{ genre.name }}
               </span>
@@ -72,7 +74,7 @@
           </div>
         </b-tab>
         <b-tab title="Videos">
-          <div class="showcase-container w-100">
+          <div class="p-5 w-100">
             <h2>{{ data.title }}</h2>
             <div class="video-container">
               <div
@@ -99,14 +101,14 @@
           </div>
         </b-tab>
         <b-tab title="Detail">
-          <div class="showcase-container showcase-detail">
+          <div class="p-5 w-50">
             <h2>{{ data.title }}</h2>
-            <div class="d-flex">
-              <div class="section">
-                <div class="title">
+            <div class="d-flex justify-content-between">
+              <div>
+                <div>
                   Director
                 </div>
-                <div class="body">
+                <div class="text-white-darker">
                   <nuxt-link
                     class="item"
                     :to="''"
@@ -114,14 +116,14 @@
                     {{ data.director }}
                   </nuxt-link>
                 </div>
-                <div class="title mt-4">
+                <div>
                   Cast
                 </div>
-                <div class="body">
+                <div>
                   <nuxt-link
                     v-for="actor in limitedActors(8)"
                     :key="actor.ID"
-                    class="item"
+                    class="d-block"
                     :to="''"
                   >
                     {{ actor.name }}
@@ -147,12 +149,6 @@
                 </div>
                 <div class="body">
                   {{ data.vote_average }}
-                </div>
-                <div class="title mt-4">
-                  Awards
-                </div>
-                <div class="body">
-                  {{ data.awards ? data.awards : '-' }}
                 </div>
               </div>
               <div class="section">
@@ -288,3 +284,9 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+    .coma span{
+      &::after { content: ",";}
+      &:last-child:after { display: none;}
+    }
+</style>
