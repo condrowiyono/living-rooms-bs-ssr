@@ -30,7 +30,6 @@
 </template>
 
 <script>
-// import Highlight from '~/components/molecules/Highlight'
 import Layout from '~/components/molecules/Layout'
 
 export default {

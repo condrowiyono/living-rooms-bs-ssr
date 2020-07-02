@@ -34,7 +34,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    { src: '~plugins/resizer.js' }
+    { src: '~plugins/filter.js' }
   ],
   /*
   ** Nuxt.js dev-modules

@@ -1,9 +1,9 @@
 // Reference : https://codepen.io/brandonjdavis/pen/poJPNXb
 import $ from 'jquery'
 
-export default function hover (mainClass) {
+export default function hover (mainClass, id) {
   $(`.${mainClass}`).each(function () {
-    const nLi = 6
+    const nLi = id
 
     // hover "li"
     $(this).find('li').hover(

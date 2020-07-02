@@ -1,5 +1,8 @@
 <template>
-  <b-tabs class="lr-tabs">
+  <b-tabs
+    class="r-tabs"
+    end
+  >
     <slot />
   </b-tabs>
 </template>
@@ -14,7 +17,8 @@ export default {
 }
 </script>
 <style lang="scss">
-.lr-tabs {
+@import './assets/scss/_color.scss';
+.r-tabs {
   position: relative;
   height: 100%;
 
@@ -23,12 +27,11 @@ export default {
   }
 
   ul {
-    margin: 0;
     width: 100%;
     position: absolute;
-    bottom: 0;
     justify-content: center;
     border: none;
+    bottom: 0;
 
     li {
       text-align: center;
@@ -39,9 +42,8 @@ export default {
         background: none;
         color: white;
         border-bottom: .25vw transparent solid;
-        padding-right: 1.5vw;
-        padding-left: 1.5vw;
-        font-size: 1vw;
+        font-size: inherit;
+        font-weight: 600;
 
         &.active {
           background: none;
@@ -49,6 +51,12 @@ export default {
           border-bottom: .25vw red solid;
         }
       }
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    ul li a.nav-link {
+      font-size: 0.8rem;
     }
   }
 }

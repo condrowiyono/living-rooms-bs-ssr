@@ -8,7 +8,7 @@
     >
       <b-navbar-brand>
         <nuxt-link :to="{ name: 'home' }">
-          Living Rooms
+          Ruang Tengah
         </nuxt-link>
       </b-navbar-brand>
 
@@ -134,6 +134,12 @@ export default {
 
   beforeDestroy () {
     window.removeEventListener('scroll', this.onScroll)
+  },
+
+  head () {
+    return {
+      title: 'Ruang Tengah'
+    }
   },
 
   methods: {

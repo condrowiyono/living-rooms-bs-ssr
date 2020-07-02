@@ -1,7 +1,7 @@
 {
-  "name": "living-rooms-bs-ssr",
-  "version": "1.0.0",
-  "description": "Bootstrap SSE",
+  "name": "ruangtengah",
+  "version": "0.0.1",
+  "description": "Tampilan depan untuk Ruangtengah.com",
   "author": "condro",
   "private": true,
   "scripts": {
@@ -19,6 +19,7 @@
     "bootstrap-vue": "^2.0.0",
     "lodash": "^4.17.15",
     "nuxt": "^2.0.0",
+    "vue": "^2.6.11",
     "vue-slick-carousel": "^1.0.2"
   },
   "devDependencies": {

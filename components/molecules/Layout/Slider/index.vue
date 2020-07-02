@@ -22,10 +22,12 @@
             :key="movie.ID"
             :class="`${id}${movie.ID}`"
             class="cursor-pointer d-inline-block"
-            :style="'width: calc(100% / 6)'"
+            :style="{
+              width: `calc(100% / ${perSlide})`
+            }"
           >
             <div
-              @click="fetchMovie(movie.ID)"
+              @click="handleOpenShowcase(movie.ID)"
               @mouseenter.stop="handleMouseEnter(id, idx, movie.ID)"
               @mouseleave="handleMouseLeave(id, idx, movie.ID)"
             >
@@ -54,21 +56,22 @@
                     </div>
                     <div class="font-size-smallest d-flex">
                       <div class="mr-1 text-success">
-                        {{ dayjs(movie.release_date).format('YYYY') }}
+                        {{ movie.release_date | yearOfDate }}
                       </div>
                       <div class="mr-1">
                         {{ movie.rated }}
                       </div>
                       <div class="mr-1">
-                        {{ movie.runtime }} m
+                        {{ movie.runtime | inHour }}
                       </div>
                     </div>
                     <div class="font-size-smallest tags">
                       <span
-                        v-for="genre in movie.genres"
-                        :key="genre.id"
+                        v-for="(genre, genreIdx) in movie.genres"
+                        :key="genreIdx"
                       >
                         {{ genre.name }}
+                        <span v-if="genreIdx !== movie.genres.length - 1"> • </span>
                       </span>
                     </div>
                   </div>
@@ -92,17 +95,14 @@
 </template>
 
 <script>
-// Reference : https://codepen.io/brandonjdavis/pen/poJPNXb
 import $ from 'jquery'
 import { chunk } from 'lodash'
 import VueSlickCarousel from 'vue-slick-carousel'
-import dayjs from 'dayjs'
 
 import { BImgLazy } from 'bootstrap-vue'
 
 import Showcase from '~/components/molecules/Showcase'
 import hover from '~/components/molecules/Layout/utils'
-import isObjectEmpty from '~/lib/Object'
 import jwplayerSetup from '~/lib/jwplayerSetup'
 
 export default {
@@ -129,6 +129,16 @@ export default {
     }
   },
 
+  data () {
+    return {
+      selected: {
+        id: null,
+        idx: null
+      },
+      perSlide: 6
+    }
+  },
+
   computed: {
     slideDetail () {
       return this.$store.state.movie.movie
@@ -143,7 +153,7 @@ export default {
     },
 
     slideContainer () {
-      return chunk(this.content, 6)
+      return chunk(this.content, this.perSlide)
     },
 
     interactiveMode () {
@@ -151,24 +161,37 @@ export default {
     }
   },
 
-  updated () {
-    hover('lr-slider-slide')
+  beforeMount () {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
   },
 
   mounted () {
-    hover('lr-slider-slide')
+    this.handleResize()
+    hover('lr-slider-slide', this.perSlide)
+  },
+
+  updated () {
+    this.handleResize()
+    hover('lr-slider-slide', this.perSlide)
   },
 
   methods: {
-    dayjs,
-
-    isObjectEmpty,
-
-    fetchMovie (id) {
-      const anotherShocase = $('.showcase')
-      if (anotherShocase.length > 0) {
-        anotherShocase.removeClass('visible')
+    handleResize () {
+      const screenSize = window.innerWidth
+      if (screenSize < 480) {
+        this.perSlide = 2
+      } else if (screenSize < 768) {
+        this.perSlide = 3
+      } else if (screenSize < 1024) {
+        this.perSlide = 4
+      } else {
+        this.perSlide = 6
       }
+    },
+
+    handleOpenShowcase (id) {
+      $('.showcase').removeClass('visible')
 
       this.$store.dispatch('movie/FETCH_MOVIE_DETAIL', { id, caller: this.id })
 
@@ -207,6 +230,8 @@ export default {
     },
 
     handleMouseEnter (id, idx, movieID) {
+      console.warn('hovered')
+
       // if selected return
       const selected = document.getElementsByClassName('selected')
       if (selected.length > 0) {
@@ -280,14 +305,9 @@ export default {
           border-style: solid;
           border-width: 10px 20px 0 20px;
           margin-top: 3px;
-          border-color: #fff transparent transparent transparent;
+          border-color : #fff transparent transparent transparent;
         }
       }
-    }
-
-    .card-info .tags span {
-      &:after { content:"●"; }
-      &:last-child:after { display: none; }
     }
 
     &:hover .img:after { opacity: 1;}
@@ -295,6 +315,7 @@ export default {
     &:last-child { transform-origin: 100% center; }
   }
   li, li * {
+    outline: none;
     transition: all .5s ease .2s;
   }
 }
@@ -302,6 +323,7 @@ export default {
 section.lr-slider {
   .slick-list {
     overflow: unset;
+    z-index: 10;
   }
 
   .slick-arrow  {

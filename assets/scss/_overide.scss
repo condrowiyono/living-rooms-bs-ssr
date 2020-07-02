@@ -1,19 +1,6 @@
 @import 'color';
 @import 'variable';
 
-.slick-slider {
-  z-index: 1
-}
-
-.btn, .custom-select {
-  font-family: $font;
-}
-
-.btn-red, .btn-red:hover {
-  background-color: red!important;
-  border-color: red!important;
-}
-
 .btn-transparent {
   background-color: rgba(51, 51, 51, 0.4);
   border-style: none;
@@ -21,6 +8,21 @@
 
   &:hover{
     background-color: #fff;
+    border-style: none;
+    color: $black;
+    transform: scale(1.1);
+    transition: transform .2s linear;
+  }
+}
+
+.btn-white {
+  background-color: rgba($white, 0.8);
+  border-style: none;
+  color: $black;
+  transition: transform .2s linear;
+
+  &:hover{
+    background-color: $white-darker;
     border-style: none;
     color: $black;
     transform: scale(1.1);

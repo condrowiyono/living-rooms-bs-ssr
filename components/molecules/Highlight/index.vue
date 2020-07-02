@@ -15,7 +15,7 @@
       src="https://image.tmdb.org/t/p/original/8K001T1pcEDQSOYwEI1wKps1qcA.jpg"
     />
     <div class="higlight-content">
-      <h2 :style="$fontResizer(isMobileOrTablet, '1.4rem')">
+      <h2>
         Parasite
       </h2>
       <p v-if="!isMobileOrTablet">
@@ -27,16 +27,10 @@
           'mt-4': !isMobileOrTablet
         }"
       >
-        <b-button
-          class="btn-transparent mr-2"
-          :style="$fontResizer(isMobileOrTablet)"
-        >
+        <b-button class="btn-transparent mr-2">
           <b-icon-play-fill /> Putar
         </b-button>
-        <b-button
-          class="btn-transparent"
-          :style="$fontResizer(isMobileOrTablet)"
-        >
+        <b-button class="btn-transparent">
           <b-icon-info-circle />
           <span v-if="!isMobileOrTablet">
             Info Lengkap

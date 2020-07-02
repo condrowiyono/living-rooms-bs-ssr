@@ -9,7 +9,7 @@
         v-if="data && data.banners"
         class="position-absolute h-100 right-0"
       >
-        <b-img
+        <b-img-lazy
           v-if="!loading"
           :src="data.banners[0].path"
           class="h-100 w-auto position-absolute right-0"
@@ -24,68 +24,80 @@
       >
         <b-icon-x />
       </div>
-      <l-r-tabs v-if="!loading">
+      <r-tabs v-if="!loading" >
         <b-tab title="Overview" active>
-          <div class="w-50 p-5 overflow-auto h-100">
-            <h2> {{ data.title }} </h2>
-            <div class="mb-2 d-flex justify-content-start align-items-center">
+          <div class="overview px-5 py-vw-3 overflow-none h-100">
+            <div class="title mb-vw-1">
+              {{ data.title }}
+            </div>
+            <div class="attribute mb-vw-1 d-flex justify-content-start align-items-center">
               <div class="mr-2">
-                {{ dayjs(data.release_date).format('YYYY') }}
+                {{ data.release_date | yearOfDate }}
               </div>
               <div class="mr-2 border px-2">
                 {{ data.rated }}
               </div>
               <div class="mr-2">
-                {{ inHour(data.runtime) }}
+                {{ data.runtime | inHour }}
               </div>
             </div>
-            <div class="plot mb-4 text-white-darker">
+            <div class="mb-vw-1 plot d-none d-md-block text-white-darker">
               {{ data.overview }}
             </div>
-            <div class="mb-4">
+            <div
+              v-if="data && data.player"
+              class="mb-vw-1 "
+            >
               <b-button
-                variant="danger"
-                class="btn-red"
-                @click="handlePlayClick(data.player.ID)"
+                class="btn-white"
+                :to="{
+                  name: 'player-id',
+                  params: { id: data.player.ID }
+                }"
               >
                 <b-icon-play-fill /> Putar
               </b-button>
             </div>
-            <div class="coma">
-              <strong>Pemeran : </strong>
-              <span
-                v-for="actor in limitedActors(5)"
-                :key="actor.ID"
-                class="text-white-darker"
-              >
-                {{ actor.name }}
-              </span>
-            </div>
-            <div class="coma">
-              <strong>Genres : </strong>
-              <span
-                v-for="genre in data.genres"
-                :key="genre.ID"
-                class="text-white-darker"
-              >
-                {{ genre.name }}
-              </span>
+            <div class="cast d-md-block d-none">
+              <div>
+                <strong>Pemeran : </strong>
+                <span
+                  v-for="actor in limitedActors(5)"
+                  :key="actor.ID"
+                  class="text-white-darker"
+                >
+                  {{ actor.name }}
+                </span>
+              </div>
+              <div>
+                <strong>Genres : </strong>
+                <span
+                  v-for="genre in data.genres"
+                  :key="genre.ID"
+                  class="text-white-darker"
+                >
+                  {{ genre.name }}
+                </span>
+              </div>
             </div>
           </div>
         </b-tab>
         <b-tab title="Videos">
-          <div class="p-5 w-100">
-            <h2>{{ data.title }}</h2>
+          <div class="px-5 py-vw-3 w-100">
+            <div class="title mb-vw-1">
+              {{ data.title }}
+            </div>
             <div class="video-container">
               <div
                 v-for="video in data.videos"
                 :key="video.ID"
                 class="video-item"
               >
-                <div
-                  class="thumbnail"
-                >
-                  <b-img fluid :src="getThumbnails(video.player_url)" />
+                <div class="thumbnail">
+                  <b-img-lazy
+                    fluid
+                    :src="getThumbnails(video.player_url)"
+                  />
                   <div class="hover">
                     <b-icon-play-fill
                       font-scale="4"
@@ -93,7 +105,7 @@
                     />
                   </div>
                 </div>
-                <div class="title">
+                <div class="type">
                   {{ video.type }}
                 </div>
               </div>
@@ -101,9 +113,42 @@
           </div>
         </b-tab>
         <b-tab title="Detail">
-          <div class="p-5 w-50">
-            <h2>{{ data.title }}</h2>
-            <div class="d-flex justify-content-between">
+          <div class="detail overflow-auto px-5 py-vw-3 w-75">
+            <div class="title mb-vw-1">
+              {{ data.title }}
+            </div>
+            <b-row>
+              <b-col
+                sm="6"
+                lg="4"
+              >
+                <div>
+                  <strong> Plot </strong>
+                </div>
+                <div>
+                  {{ data.director }}
+                </div>
+              </b-col>
+              <b-col
+                sm="6"
+                lg="4"
+              >
+                <div>
+                  <strong> Actor </strong>
+                </div>
+                <div>
+                  <nuxt-link
+                    v-for="actor in limitedActors(8)"
+                    :key="actor.ID"
+                    class="d-block"
+                    :to="''"
+                  >
+                    {{ actor.name }}
+                  </nuxt-link>
+                </div>
+              </b-col>
+            </b-row>
+            <!-- <div class="d-flex justify-content-between">
               <div>
                 <div>
                   Director
@@ -130,7 +175,7 @@
                   </nuxt-link>
                 </div>
               </div>
-              <div class="section">
+              <div>
                 <div class="title">
                   Genre
                 </div>
@@ -177,10 +222,10 @@
                   {{ data.imdb_id }}
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </b-tab>
-      </l-r-tabs>
+      </r-tabs>
     </div>
   </div>
 </template>
@@ -188,18 +233,20 @@
 <script>
 import dayjs from 'dayjs'
 
-import { BIconX, BIconPlayFill, BTab, BButton, BImg } from 'bootstrap-vue'
+import { BIconX, BIconPlayFill, BTab, BButton, BImgLazy, BCol, BRow } from 'bootstrap-vue'
 
-import LRTabs from '~/components/atoms/LRTabs'
+import RTabs from '~/components/atoms/RTabs'
 
 export default {
   components: {
-    LRTabs,
+    RTabs,
     BTab,
     BButton,
-    BImg,
+    BImgLazy,
     BIconX,
-    BIconPlayFill
+    BIconPlayFill,
+    BCol,
+    BRow
   },
 
   props: {
@@ -237,12 +284,6 @@ export default {
 
     closeShowcase () {
       this.$emit('close')
-    },
-
-    inHour (min) {
-      const hour = Math.floor(min / 60)
-      min = min % 60
-      return `${hour} j ${min} m`
     },
 
     handleTitleClick (id) {
@@ -285,8 +326,153 @@ export default {
 }
 </script>
 <style lang="scss">
-    .coma span{
-      &::after { content: ",";}
-      &:last-child:after { display: none;}
+@import './assets/scss/_color.scss';
+.showcase {
+  position: relative;
+  height: 34vw;
+  font-size: 1.2vw;
+  visibility: hidden;
+  display: none;
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba($white,0.7);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  &.visible {
+    visibility: visible;
+    display: block;
+  }
+
+  .overview {
+    width: 50%;
+  }
+
+  .close-icon {
+    font-size: 3rem;
+    z-index: 2;
+    transition: transform .1s linear;
+
+    &:hover {
+      transform: scale(1.1);
+      transition: transform .1s linear;
     }
+  }
+
+  .bg-gradient {
+    &::after {
+      background-image: linear-gradient(90deg,#000 0%, #000 40%, transparent);
+      display: block;
+      content: '';
+      height: 100%;
+      width: 100%;
+      position: relative;
+    }
+  }
+
+  .plot {
+    max-height: 8vw;
+    overflow-y: auto;
+  }
+
+  .title {
+    font-size: 2vw;
+  }
+
+  .btn {
+    font-size: inherit;
+    font-weight: 600;
+  }
+
+  .mb-vw-1 {
+    margin-bottom: 1vw ;
+  }
+
+  .py-vw-3 {
+    padding-top: 3vw;
+    padding-bottom: 3vw;
+  }
+
+  .video-container {
+    padding: 2vw 0;
+    width: 100%;
+    overflow-y: hidden ;
+    overflow-x: auto;
+    white-space: nowrap;
+
+    .video-item {
+      margin: 0 0.4vw;
+      display: inline-block;
+      width: auto;
+      width: 16vw;
+      vertical-align: top;
+
+      .thumbnail{
+        cursor: pointer;
+        padding: .5vw;
+        margin-bottom: 1vw ;
+        height: 9vw;
+        background-size: cover;
+        position: relative;
+        display: flex;
+
+        .hover {
+          transition: opacity .2s linear;
+          opacity: 0;
+          position: absolute;
+          height: auto;
+          width: auto;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+
+          &:hover {
+            color: red;
+            transition: color .2s linear;
+          }
+        }
+
+        &:hover .hover {
+          opacity: 1;
+          transition: opacity .2s linear;
+        }
+      }
+
+      .type {
+        color: $white-darker;
+        white-space: normal;
+        font-size: inherit;
+      }
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .overview {
+      width: 75%;
+    }
+
+    .title {
+      font-size: 1.2rem;
+    }
+
+    .attribute, .btn {
+      font-size: 0.8rem;
+    }
+
+    .detail {
+      font-size: 0.8rem;
+    }
+  }
+}
 </style>
