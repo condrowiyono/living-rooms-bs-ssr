@@ -1,6 +1,6 @@
 <template>
   <div class="lr-movie mt-4">
-    <div class="mb-4">
+    <div class="mx-5 mb-4">
       <b-form-select
         v-model="selected"
         class="select"
@@ -92,7 +92,6 @@ export default {
 .lr-movie {
   .select {
     width: 300px;
-    margin: 0 4vw;
     background-color: transparent;
     color: #fff;
   }

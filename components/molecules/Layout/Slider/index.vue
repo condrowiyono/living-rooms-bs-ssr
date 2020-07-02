@@ -230,8 +230,6 @@ export default {
     },
 
     handleMouseEnter (id, idx, movieID) {
-      console.warn('hovered')
-
       // if selected return
       const selected = document.getElementsByClassName('selected')
       if (selected.length > 0) {
@@ -273,6 +271,7 @@ export default {
       display: block;
       position: relative;
       padding-top: 56%;
+      font-size: 1.2vw;
 
       &:after {
         content:"";

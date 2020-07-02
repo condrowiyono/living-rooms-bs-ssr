@@ -18,10 +18,12 @@
               :key="movie.ID"
               :class="`${id}${movie.ID}`"
               class="cursor-pointer d-inline-block"
-              :style="'width: calc(100% / 6)'"
+              :style="{
+                width: `calc(100% / ${perSlide})`
+              }"
             >
               <div
-                @click="fetchMovie(movie.ID, idx)"
+                @click="handleOpenShowcase(movie.ID, idx)"
                 @mouseenter.stop="handleMouseEnter(id, idx, movie.ID)"
                 @mouseleave="handleMouseLeave(id, idx, movie.ID)"
               >
@@ -48,13 +50,13 @@
                     </div>
                     <div class="font-size-smallest d-flex">
                       <div class="mr-1 text-success">
-                        {{ dayjs(movie.release_date).format('YYYY') }}
+                        {{ movie.release_date | yearOfDate }}
                       </div>
                       <div class="mr-1">
                         {{ movie.rated }}
                       </div>
                       <div class="mr-1">
-                        {{ movie.runtime }} m
+                        {{ movie.runtime | inHour }}
                       </div>
                     </div>
                     <div class="font-size-smallest tags">
@@ -89,13 +91,11 @@
 // Reference : https://codepen.io/brandonjdavis/pen/poJPNXb
 import $ from 'jquery'
 import { chunk } from 'lodash'
-import dayjs from 'dayjs'
 
 import { BImgLazy } from 'bootstrap-vue'
 
 import Showcase from '~/components/molecules/Showcase'
 import hover from '~/components/molecules/Layout/utils'
-import isObjectEmpty from '~/lib/Object'
 import jwplayerSetup from '~/lib/jwplayerSetup'
 
 export default {
@@ -125,6 +125,16 @@ export default {
     }
   },
 
+  data () {
+    return {
+      selected: {
+        id: null,
+        idx: null
+      },
+      perSlide: 6
+    }
+  },
+
   computed: {
     slideDetail () {
       return this.$store.state.movie.movie
@@ -139,7 +149,7 @@ export default {
     },
 
     slideContainer () {
-      return chunk(this.content, 6)
+      return chunk(this.content, this.perSlide)
     },
 
     interactiveMode () {
@@ -147,20 +157,36 @@ export default {
     }
   },
 
-  updated () {
-    hover('lr-slider-slide')
+  beforeMount () {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
   },
 
   mounted () {
-    hover('lr-slider-slide')
+    this.handleResize()
+    hover('lr-slider-slide', this.perSlide)
+  },
+
+  updated () {
+    this.handleResize()
+    hover('lr-slider-slide', this.perSlide)
   },
 
   methods: {
-    dayjs,
+    handleResize () {
+      const screenSize = window.innerWidth
+      if (screenSize < 480) {
+        this.perSlide = 2
+      } else if (screenSize < 768) {
+        this.perSlide = 3
+      } else if (screenSize < 1024) {
+        this.perSlide = 4
+      } else {
+        this.perSlide = 6
+      }
+    },
 
-    isObjectEmpty,
-
-    fetchMovie (id, containerId) {
+    handleOpenShowcase (id, containerId) {
       $('.showcase').removeClass('visible')
 
       this.$store.dispatch('movie/FETCH_MOVIE_DETAIL', { id, caller: this.id })
@@ -179,7 +205,6 @@ export default {
     },
 
     handleTitleClick (id) {
-      console.warn(id)
       this.$router.push({
         name: 'movie-id',
         params: { id }

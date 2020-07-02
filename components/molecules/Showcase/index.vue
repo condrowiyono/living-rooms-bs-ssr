@@ -24,9 +24,9 @@
       >
         <b-icon-x />
       </div>
-      <r-tabs v-if="!loading" >
+      <r-tabs v-if="!loading">
         <b-tab title="Overview" active>
-          <div class="overview px-5 py-vw-3 overflow-none h-100">
+          <div class="overview px-3 px-sm-5 py-vw-3 overflow-none h-100">
             <div class="title mb-vw-1">
               {{ data.title }}
             </div>
@@ -82,7 +82,10 @@
             </div>
           </div>
         </b-tab>
-        <b-tab title="Videos">
+        <b-tab
+          v-if="!$device.isMobileOrTablet"
+          title="Videos"
+        >
           <div class="px-5 py-vw-3 w-100">
             <div class="title mb-vw-1">
               {{ data.title }}
@@ -93,7 +96,7 @@
                 :key="video.ID"
                 class="video-item"
               >
-                <div class="thumbnail">
+                <div class="thumbnail cursor-pointer">
                   <b-img-lazy
                     fluid
                     :src="getThumbnails(video.player_url)"
@@ -112,48 +115,20 @@
             </div>
           </div>
         </b-tab>
-        <b-tab title="Detail">
-          <div class="detail overflow-auto px-5 py-vw-3 w-75">
+        <b-tab
+          v-if="!$device.isMobileOrTablet"
+          title="Detail"
+        >
+          <div class="detail overflow-auto px-5 py-vw-3 w-100 h-100">
             <div class="title mb-vw-1">
               {{ data.title }}
             </div>
-            <b-row>
-              <b-col
-                sm="6"
-                lg="4"
-              >
-                <div>
-                  <strong> Plot </strong>
-                </div>
-                <div>
-                  {{ data.director }}
-                </div>
-              </b-col>
-              <b-col
-                sm="6"
-                lg="4"
-              >
-                <div>
-                  <strong> Actor </strong>
-                </div>
-                <div>
-                  <nuxt-link
-                    v-for="actor in limitedActors(8)"
-                    :key="actor.ID"
-                    class="d-block"
-                    :to="''"
-                  >
-                    {{ actor.name }}
-                  </nuxt-link>
-                </div>
-              </b-col>
-            </b-row>
-            <!-- <div class="d-flex justify-content-between">
-              <div>
-                <div>
+            <div class="d-flex justify-content-start">
+              <div class="mr-5">
+                <div class="font-weight-bold">
                   Director
                 </div>
-                <div class="text-white-darker">
+                <div>
                   <nuxt-link
                     class="item"
                     :to="''"
@@ -161,7 +136,7 @@
                     {{ data.director }}
                   </nuxt-link>
                 </div>
-                <div>
+                <div class="font-weight-bold mt-2">
                   Cast
                 </div>
                 <div>
@@ -176,10 +151,10 @@
                 </div>
               </div>
               <div>
-                <div class="title">
+                <div class="font-weight-bold">
                   Genre
                 </div>
-                <div class="body">
+                <div>
                   <nuxt-link
                     v-for="genre in data.genres"
                     :key="genre.ID"
@@ -189,43 +164,115 @@
                     {{ genre.name }}
                   </nuxt-link>
                 </div>
-                <div class="title mt-4">
+                <div class="font-weight-bold mt-2">
                   Rating TMDB
                 </div>
-                <div class="body">
+                <div>
                   {{ data.vote_average }}
                 </div>
-              </div>
-              <div class="section">
-                <div class="title">
+                <div class="font-weight-bold mt-2">
                   Kelompuk Umur
                 </div>
-                <div class="body">
+                <div>
                   {{ data.rated }}
                 </div>
-                <div class="title mt-4">
-                  Sumber Video
-                </div>
-                <div class="body">
-                  {{ data.player ? data.player.source : '-' }}
-                </div>
-                <div class="title mt-4">
+                <div class="font-weight-bold mt-2">
                   TMDB ID
                 </div>
-                <div class="body">
+                <div>
                   {{ data.tmdb_id }}
                 </div>
-                <div class="title mt-4">
+                <div class="font-weight-bold mt-2">
                   IMDB ID
                 </div>
-                <div class="body">
+                <div>
                   {{ data.imdb_id }}
                 </div>
               </div>
-            </div> -->
+            </div>
           </div>
         </b-tab>
       </r-tabs>
+      <div
+        v-if="$device.isMobileOrTablet"
+        class="mobile-view px-3 mt-3 text-white-darker"
+      >
+        <div class="overview">
+          {{ data.overview }}
+        </div>
+        <div class="detail">
+          <div class="mb-2 mt-2">
+            <strong> DETAIL FILM </strong>
+          </div>
+          <div class="d-flex justify-content-start">
+            <div class="mr-4">
+              <div class="font-weight-bold">
+                Director
+              </div>
+              <div>
+                <nuxt-link
+                  class="item"
+                  :to="''"
+                >
+                  {{ data.director }}
+                </nuxt-link>
+              </div>
+              <div class="font-weight-bold mt-2">
+                Cast
+              </div>
+              <div>
+                <nuxt-link
+                  v-for="actor in limitedActors(8)"
+                  :key="actor.ID"
+                  class="d-block"
+                  :to="''"
+                >
+                  {{ actor.name }}
+                </nuxt-link>
+              </div>
+            </div>
+            <div>
+              <div class="font-weight-bold">
+                Genre
+              </div>
+              <div>
+                <nuxt-link
+                  v-for="genre in data.genres"
+                  :key="genre.ID"
+                  class="item"
+                  :to="''"
+                >
+                  {{ genre.name }}
+                </nuxt-link>
+              </div>
+              <div class="font-weight-bold mt-2">
+                Rating TMDB
+              </div>
+              <div>
+                {{ data.vote_average }}
+              </div>
+              <div class="font-weight-bold mt-2">
+                Kelompuk Umur
+              </div>
+              <div>
+                {{ data.rated }}
+              </div>
+              <div class="font-weight-bold mt-2">
+                TMDB ID
+              </div>
+              <div>
+                {{ data.tmdb_id }}
+              </div>
+              <div class="font-weight-bold mt-2">
+                IMDB ID
+              </div>
+              <div>
+                {{ data.imdb_id }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -233,7 +280,7 @@
 <script>
 import dayjs from 'dayjs'
 
-import { BIconX, BIconPlayFill, BTab, BButton, BImgLazy, BCol, BRow } from 'bootstrap-vue'
+import { BIconX, BIconPlayFill, BTab, BButton, BImgLazy } from 'bootstrap-vue'
 
 import RTabs from '~/components/atoms/RTabs'
 
@@ -244,9 +291,7 @@ export default {
     BButton,
     BImgLazy,
     BIconX,
-    BIconPlayFill,
-    BCol,
-    BRow
+    BIconPlayFill
   },
 
   props: {
@@ -414,14 +459,12 @@ export default {
     .video-item {
       margin: 0 0.4vw;
       display: inline-block;
-      width: auto;
-      width: 16vw;
       vertical-align: top;
 
       .thumbnail{
-        cursor: pointer;
         padding: .5vw;
         margin-bottom: 1vw ;
+        width: 14vw;
         height: 9vw;
         background-size: cover;
         position: relative;
@@ -448,22 +491,16 @@ export default {
           transition: opacity .2s linear;
         }
       }
-
-      .type {
-        color: $white-darker;
-        white-space: normal;
-        font-size: inherit;
-      }
     }
   }
 
   @media (max-width: 767.98px) {
     .overview {
-      width: 75%;
+      width: 100%;
     }
 
     .title {
-      font-size: 1.2rem;
+      font-size: 1rem;
     }
 
     .attribute, .btn {
@@ -473,6 +510,14 @@ export default {
     .detail {
       font-size: 0.8rem;
     }
+  }
+
+  .mobile-view {
+    .overview {
+      width: 100%;
+    }
+
+    font-size: 1rem;
   }
 }
 </style>

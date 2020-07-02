@@ -1,45 +1,51 @@
 <template>
-  <div class="lr-scroll">
-    <h6>
+  <div class="r-scroll">
+    <h6 class="p-3">
       <a href="#">
         {{ title }}
       </a>
     </h6>
-    <div
-      v-if="!loading"
-      class="scroll"
-    >
-      <div
-        v-for="movie in content"
-        :key="movie.ID"
-        :class="`${id}${movie.ID}`"
-        class="item"
-      >
-        <div
-          class="content"
-          @click="handleTitleClick(movie.ID)"
+    <div class="scroll">
+      <ul class="m-0 p-0 w-100 list-unstyled">
+        <li class="initial " />
+        <li
+          v-for="movie in content"
+          :key="movie.ID"
+          class="cursor-pointer d-inline-block"
+          :style="{
+            width: `calc(100% / ${perSlide})`
+          }"
         >
-          <b-img-lazy
-            fluid
-            blank
-            blank-color="#ddd"
-            :src="movie.banners[0].path"
-          />
-          <div class="card-movie-title">
-            {{ movie.title }}
-          </div>
-        </div>
-      </div>
+          <b-link
+            :to="{
+              name: 'movie-id',
+              params: { id: movie.ID }
+            }"
+            class="img mr-1"
+          >
+            <b-img-lazy
+              fluid
+              blank
+              blank-color="#111"
+              :src="movie.banners[0].path"
+              :alt="movie.title"
+              class="rounded position-absolute w-100 h-100 top-0 left-0"
+            />
+          </b-link>
+        </li>
+        <li class="initial d-inline-block" />
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
-import { BImgLazy } from 'bootstrap-vue'
+import { BImgLazy, BLink } from 'bootstrap-vue'
 
 export default {
   components: {
-    BImgLazy
+    BImgLazy,
+    BLink
   },
 
   props: {
@@ -63,31 +69,56 @@ export default {
     }
   },
 
+  data () {
+    return {
+      perSlide: 2
+    }
+  },
+
+  beforeMount () {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
+  },
+
+  mounted () {
+    this.handleResize()
+  },
+
+  updated () {
+    this.handleResize()
+  },
+
   methods: {
-    handleTitleClick (id) {
-      this.$router.push({
-        name: 'movie-id',
-        params: { id }
-      })
+    handleResize () {
+      const screenSize = window.innerWidth
+      if (screenSize < 480) {
+        this.perSlide = 2
+      } else if (screenSize < 768) {
+        this.perSlide = 3
+      } else if (screenSize < 1024) {
+        this.perSlide = 4
+      } else {
+        this.perSlide = 6
+      }
     }
   }
 }
 </script>
 
 <style lang="scss">
-.lr-scroll .scroll .item {
-  width: calc(100% / 4 - 1vw);
-}
+.scroll ul {
+  overflow-y: hidden ;
+  overflow-x: auto;
+  white-space: nowrap;
 
-@media screen and (max-width: 575.98px) and (min-width: 0px) {
-  .lr-scroll .scroll .item {
-    width: calc(100% / 2 - 1vw);
+  .initial {
+    width: 1rem;
   }
-}
 
-@media screen and (max-width: 767.98px) and (min-width: 575.98px) {
-  .lr-scroll .scroll .item {
-    width: calc(100% / 3 - 1vw);
+  .img {
+    display: block;
+    position: relative;
+    padding-top: 56%;
   }
 }
 </style>
