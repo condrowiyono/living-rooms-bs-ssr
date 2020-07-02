@@ -3,10 +3,6 @@ FROM node:10.13.0-alpine AS build
 WORKDIR /app
 ADD . /app/
 
-# global install & update
-RUN npm i -g npm && npm i -g yarn
-
-RUN rm yarn.lock
 RUN yarn
 RUN yarn build
 
