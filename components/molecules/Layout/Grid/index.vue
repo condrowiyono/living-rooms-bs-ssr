@@ -78,9 +78,6 @@
           :data="slideDetail"
           :loading="isFetching"
           @close="closeShowcase"
-          @title-click="handleTitleClick"
-          @play-click="handlePlayClick"
-          @video-click="handleVideoClick"
         />
       </div>
     </section>

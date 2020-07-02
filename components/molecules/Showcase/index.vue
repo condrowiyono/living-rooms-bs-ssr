@@ -28,7 +28,16 @@
         <b-tab title="Overview" active>
           <div class="overview px-3 px-sm-5 py-vw-3 overflow-none h-100">
             <div class="title mb-vw-1">
-              {{ data.title }}
+              <span v-if="noClose"> {{ data.title }} </span>
+              <b-link
+                v-else
+                :to="{
+                  name: 'movie-id',
+                  params: { id: data.ID }
+                }"
+              >
+                {{ data.title }}
+              </b-link>
             </div>
             <div class="attribute mb-vw-1 d-flex justify-content-start align-items-center">
               <div class="mr-2">
@@ -101,12 +110,17 @@
                     fluid
                     :src="getThumbnails(video.player_url)"
                   />
-                  <div class="hover">
+                  <b-link
+                    class="hover"
+                    :to="{
+                      name: 'video-id',
+                      params: {id: video.ID}
+                    }"
+                  >
                     <b-icon-play-fill
                       font-scale="4"
-                      @click="handleVideoClick(video.ID)"
                     />
-                  </div>
+                  </b-link>
                 </div>
                 <div class="type">
                   {{ video.type }}
@@ -278,9 +292,7 @@
 </template>
 
 <script>
-import dayjs from 'dayjs'
-
-import { BIconX, BIconPlayFill, BTab, BButton, BImgLazy } from 'bootstrap-vue'
+import { BIconX, BIconPlayFill, BTab, BButton, BImgLazy, BLink } from 'bootstrap-vue'
 
 import RTabs from '~/components/atoms/RTabs'
 
@@ -291,7 +303,8 @@ export default {
     BButton,
     BImgLazy,
     BIconX,
-    BIconPlayFill
+    BIconPlayFill,
+    BLink
   },
 
   props: {
@@ -325,8 +338,6 @@ export default {
   },
 
   methods: {
-    dayjs,
-
     closeShowcase () {
       this.$emit('close')
     },

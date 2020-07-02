@@ -87,9 +87,6 @@
       :data="slideDetail"
       :loading="isFetching"
       @close="closeShowcase"
-      @title-click="handleTitleClick"
-      @play-click="handlePlayClick"
-      @video-click="handleVideoClick"
     />
   </section>
 </template>
@@ -208,27 +205,6 @@ export default {
       $(`.${this.id}`).removeClass('visible')
     },
 
-    handleTitleClick (id) {
-      this.$router.push({
-        name: 'movie-id',
-        params: { id }
-      })
-    },
-
-    handlePlayClick (playerID) {
-      this.$router.push({
-        name: 'player-id',
-        params: { id: playerID }
-      })
-    },
-
-    handleVideoClick (videoID) {
-      this.$router.push({
-        name: 'video-id',
-        params: { id: videoID }
-      })
-    },
-
     handleMouseEnter (id, idx, movieID) {
       // if selected return
       const selected = document.getElementsByClassName('selected')
@@ -266,52 +242,56 @@ export default {
 
 <style lang="scss">
 .lr-slider {
-  ul.lr-slider-slide li {
-    .img {
-      display: block;
-      position: relative;
-      padding-top: 56%;
-      font-size: 1.2vw;
+  ul.lr-slider-slide {
+    outline: none;
 
-      &:after {
-        content:"";
+    li {
+      .img {
         display: block;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        background: linear-gradient(to bottom, transparent 0%, rgba(#000,1) 100%);
-        transition: all .5s ease .2s;
-        border-radius: 0.25rem;
-      }
+        position: relative;
+        padding-top: 56%;
+        font-size: 1.2vw;
 
-      .selected {
-        border-style: solid;
-        border-width: 0.4rem;
-        border-radius: 0.5rem;
-        z-index: 100;
-
-        &::after {
-          content: '';
-          width: 0;
-          height: 0;
+        &:after {
+          content:"";
+          display: block;
           position: absolute;
-          top: 100%;
-          left: 50%;
-          margin-left: -20px;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          background: linear-gradient(to bottom, transparent 0%, rgba(#000,1) 100%);
+          transition: all .5s ease .2s;
+          border-radius: 0.25rem;
+        }
+
+        .selected {
           border-style: solid;
-          border-width: 10px 20px 0 20px;
-          margin-top: 3px;
-          border-color : #fff transparent transparent transparent;
+          border-width: 0.4rem;
+          border-radius: 0.5rem;
+          z-index: 100;
+
+          &::after {
+            content: '';
+            width: 0;
+            height: 0;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -20px;
+            border-style: solid;
+            border-width: 10px 20px 0 20px;
+            margin-top: 3px;
+            border-color : #fff transparent transparent transparent;
+          }
         }
       }
-    }
 
-    &:hover .img:after { opacity: 1;}
-    &:first-child { transform-origin: 0px center; }
-    &:last-child { transform-origin: 100% center; }
+      &:hover .img:after { opacity: 1;}
+      &:first-child { transform-origin: 0px center; }
+      &:last-child { transform-origin: 100% center; }
+    }
   }
   li, li * {
     outline: none;
